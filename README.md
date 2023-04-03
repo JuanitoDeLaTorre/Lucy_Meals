@@ -15,17 +15,14 @@ GA Project 3 - Django and PostgreSQL
 
 ##ERD:
 
-![image](https://user-images.githubusercontent.com/70331884/228947380-8230570f-8585-4189-96b3-056248bc749d.png)
+![image](https://user-images.githubusercontent.com/70331884/229518771-33885838-3e81-4851-ba5a-cb4b3ca0a8ca.png)
 
 ##Wireframe:
 
-![image](https://user-images.githubusercontent.com/70331884/228947428-b866b87d-bcad-4794-9fbc-bf48d0b5f8a6.png)
+![image](https://user-images.githubusercontent.com/70331884/229519152-ab86207c-0ee7-46fe-9ae8-4290cabf437b.png)
 
-![image](https://user-images.githubusercontent.com/70331884/228947544-0817fb34-e18e-4577-905e-2bf29bdd24f7.png)
+![image](https://user-images.githubusercontent.com/70331884/229519203-d2b4bbb6-5b44-45ba-8205-7f20fc4faf3a.png)
 
-![image](https://user-images.githubusercontent.com/70331884/228947578-d19f4350-e5b9-4619-b69d-f96919e6ae76.png)
+![image](https://user-images.githubusercontent.com/70331884/229519294-961bb757-1035-4415-b1bf-d3c7e01630c7.png)
 
-![image](https://user-images.githubusercontent.com/70331884/228947601-7a8eeca9-b329-49a0-bb09-abf69b87dd05.png)
-
-![image](https://user-images.githubusercontent.com/70331884/228947619-0a9d9296-01a9-4e55-8e91-8da10342ef58.png)
-
+![image](https://user-images.githubusercontent.com/70331884/229519326-2354bb19-522c-496e-a116-1753998b4288.png)
