@@ -25,7 +25,8 @@ def meal_plan(request):
 
 
 def recipes(request):
-    return render(request, 'recipes.html')
+    all_recipes = Recipe.objects.filter()
+    return render(request, 'recipes.html', {'recipes':all_recipes})
 
 
 def recipes_detail(request, recipes_id):
