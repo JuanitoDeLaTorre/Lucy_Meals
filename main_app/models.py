@@ -14,12 +14,12 @@ DAYS = (
 )
 
 CATEGORY = (
-    ('App', 'Appetizer'),
-    ('En', 'Entree'),
-    ('D', 'Dessert'),
-    ('Bev', 'Beverage'),
-    ('S', 'Side'),
-    ('Ba', 'Baked Good'),
+    ('Appetizer', 'Appetizer'),
+    ('Entree', 'Entree'),
+    ('Dessert', 'Dessert'),
+    ('Beverage', 'Beverage'),
+    ('Side', 'Side'),
+    ('Baked Good', 'Baked Good'),
 )
 
 # Create your models here.

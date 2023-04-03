@@ -26,11 +26,21 @@ def meal_plan(request):
 
 def recipes(request):
     all_recipes = Recipe.objects.filter()
-    return render(request, 'recipes.html', {'recipes': all_recipes})
+
+    appetizers = Recipe.objects.filter(category='App')
+    entree = Recipe.objects.filter(category='En')
+    dessert = Recipe.objects.filter(category='D')
+    beverage = Recipe.objects.filter(category='Bev')
+    side = Recipe.objects.filter(category='S')
+    baked_good = Recipe.objects.filter(category='Ba')
 
 
-def recipes_detail(request, recipes_id):
-    recipe = Recipe.objects.filter(id=recipes_id)
+    return render(request, 'recipes.html', {'recipes':all_recipes})
+
+
+def recipes_detail(request, recipe_id):
+    print("HITTING ROUTE!")
+    recipe = Recipe.objects.filter(id=recipe_id)
     return render(request, 'detail.html', {
         'recipe': recipe,
     })
