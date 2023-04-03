@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>David Blaine</h1>
+<h1 class="center">Lucy Meals</h1>
+<section class="row">
+    <div class="col s9">
+        <h5 class="center">Recipes</h5>
+        <div class="row container center-align">
+            {% for recipe in recipes %}
+            <div class="col s4">
+                <div class=" card">
+                    <div class="card-content">
+                        <div class="card-title">{{recipe.category}}</div>
+                        <div class="card-body">Recipes: {{recipe.length}}</div>
+                        <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <di class="col s3">
+        <h5 class="center">Meal Plan</h5>
+        <section>
+
+        </section>
+    </div>
+</section>
 {% endblock %}

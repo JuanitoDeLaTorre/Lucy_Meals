@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 def home(request):
     recipe = Recipe.objects.filter()
     return render(request, 'home.html',
-                  {'recipe': recipe}
+                  {'recipes': recipe}
                   )
 
 # def create_recipe(request):
