@@ -24,3 +24,7 @@ header {
 main {
     flex: 1 0 auto;
 }
+
+#flex-center {
+    margin-top: 500px;
+}

@@ -1,24 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="center">Lucy Meals</h1>
-<section class="row container">
-    <div class="col s9 push-s1">
-        <h5 class="center">Categories</h5>
+<section class="row container" id="flex-center">
+    <div class="col s12 m6 offset-m3 center">
+        <h5>Categories</h5>
         <div class="row">
-            {% for recipe in recipes %}
-            <!-- <div class="col s4">
-                <div class="card center">
-                    <div class="card-content">
-                        <div class="card-title">{{recipe.category}}</div>
-                        <div class="card-body">Recipes: {{recipe.length}}</div>
-                        <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
-                    </div>
-                </div>
-            </div> -->
-            {% endfor %}
             <div class="col s4">
-                <div class=" card">
+                <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Appetizers</div>
                     <div class="card-body"># of recipes: {{appetizers|length}}</div>
@@ -27,7 +15,7 @@
                 </div>
             </div>
             <div class="col s4">
-                <div class=" card">
+                <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Entrees</div>
                     <div class="card-body"># of recipes: {{entrees|length}}</div>
@@ -36,7 +24,7 @@
                 </div>
             </div>
             <div class="col s4">
-                <div class=" card">
+                <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Desserts</div>
                     <div class="card-body"># of recipes: {{desserts|length}}</div>
@@ -45,7 +33,7 @@
                 </div>
             </div>
             <div class="col s4">
-                <div class=" card">
+                <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Beverages</div>
                     <div class="card-body"># of recipes: {{beverages|length}}</div>
@@ -54,7 +42,7 @@
                 </div>
             </div>
             <div class="col s4">
-                <div class=" card">
+                <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Sides</div>
                     <div class="card-body"># of recipes: {{sides|length}}</div>
@@ -63,7 +51,7 @@
                 </div>
             </div>
             <div class="col s4">
-                <div class=" card">
+                <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Baked Goods</div>
                     <div class="card-body"># of recipes: {{baked_goods|length}}</div>
@@ -73,12 +61,11 @@
             </div>
         </div>
     </div>
-
-    <di class="col s3 push-s2">
-        <h5 class="center">Meal Plan</h5>
-        <section>
-
-        </section>
-    </div>
+    
+    <section class="col s12 m3 right-align">
+        <div>
+            <h5>Meal Plan</h5>
+        </div>
+    </section>
 </section>
 {% endblock %}
