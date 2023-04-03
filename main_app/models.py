@@ -15,6 +15,7 @@ DAYS = (
 
 # Create your models here.
 
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=50, default = "banana")
     price = models.IntegerField(default = 1)
