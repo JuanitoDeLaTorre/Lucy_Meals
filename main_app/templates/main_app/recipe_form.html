@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Add New Recipe!</h1>
-    
+    <h1 class="center">Add New Recipe!</h1>
+    <section class="container">
     <form action="" method = "POST">
         {% csrf_token %}
         {{ form.as_p }}
         
         <input type="submit" class = "btn" value = "Submit New Recipe">
     </form>
-
+</section>
     <script>
         const dayOf = document.getElementById('id_day_of_week')
         M.FormSelect.init(dayOf);
