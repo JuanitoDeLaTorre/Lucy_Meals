@@ -1,12 +1,13 @@
 body{
+    display: flex;
     min-height: 100vh;
-    margin: 0;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    height: auto;
+    flex-direction: column;
+    
 }
 
 .page-footer {
-    padding: 25px;
+    padding: 1em;
 }
 
 nav {
@@ -18,4 +19,8 @@ nav {
 
 header {
     padding: auto 40px auto 40px;
+}
+
+main {
+    flex: 1 0 auto;
 }
