@@ -13,7 +13,14 @@ DAYS = (
     ('S', 'Sunday'),
 )
 
-CATEGORY = ['Starter/Appetizer','Entree','Dessert','Dessert','Beverage','Side','Baked Good']
+CATEGORY = (
+    ('App', 'Appetizer'),
+    ('En', 'Entree'),
+    ('D', 'Dessert'),
+    ('Bev', 'Beverage'),
+    ('S', 'Side'),
+    ('Ba', 'Baked Good'),
+)
 
 # Create your models here.
 
