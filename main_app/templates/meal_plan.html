@@ -1,5 +1,89 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>David Blaine</h1>
+<div class="container">
+    <h2 class = "center-align">Weekly Plan</h2>
+</div>
+<div class="divider"></div>
+<br>
+<br>
+
+<div class="container">
+    <table class = "striped">
+        <thead>
+          <tr>
+              <th>Day</th>
+              <th>Name</th>
+              <th># of Ingredients</th>
+              <th>Total Calories</th>
+          </tr>
+        </thead>
+    
+        <tbody>
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Monday</td>
+                    <td>Carrots</td>
+                    <td>1</td>
+                    <td>50</td>
+                  </tr>
+            </a>
+
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Tuesday</td>
+                    <td>Nachos</td>
+                    <td>5</td>
+                    <td>1200</td>
+                  </tr>
+            </a>
+
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Wednesday</td>
+                    <td>Fried Green Tomatoes</td>
+                    <td>6</td>
+                    <td>300</td>
+                  </tr>
+            </a>
+
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Thursday</td>
+                    <td>Pot Roast</td>
+                    <td>10</td>
+                    <td>2500</td>
+                  </tr>
+            </a>
+
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Friday</td>
+                    <td>Leo's Hot Wings</td>
+                    <td>12</td>
+                    <td>1600</td>
+                  </tr>
+            </a>
+
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Saturday</td>
+                    <td>Wylie's Famous Boiled Eggs</td>
+                    <td>1</td>
+                    <td>200</td>
+                  </tr>
+            </a>
+
+            <a href="{% url 'home' %}">
+                <tr class = "hoverable">
+                    <td>Sunday</td>
+                    <td>John's AirFryer Mashed Potatoes</td>
+                    <td>6</td>
+                    <td>400</td>
+                  </tr>
+            </a>
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}
