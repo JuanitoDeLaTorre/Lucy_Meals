@@ -6,8 +6,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 def home(request):
     recipe = Recipe.objects.filter()
+
+    appetizers = Recipe.objects.filter(category='Appetizer')
+    entree = Recipe.objects.filter(category='Entree')
+    dessert = Recipe.objects.filter(category='Dessert')
+    beverage = Recipe.objects.filter(category='Beverage')
+    side = Recipe.objects.filter(category='Side')
+    baked_good = Recipe.objects.filter(category='Baked Good')
+
     return render(request, 'home.html',
-                  {'recipes': recipe}
+                  {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert, 'entree': entree, 'beverage': beverage, 'side': side, 'bake_good':baked_good}
                   )
 
 # def create_recipe(request):
@@ -26,14 +34,6 @@ def meal_plan(request):
 
 def recipes(request):
     all_recipes = Recipe.objects.filter()
-
-    appetizers = Recipe.objects.filter(category='App')
-    entree = Recipe.objects.filter(category='En')
-    dessert = Recipe.objects.filter(category='D')
-    beverage = Recipe.objects.filter(category='Bev')
-    side = Recipe.objects.filter(category='S')
-    baked_good = Recipe.objects.filter(category='Ba')
-
 
     return render(request, 'recipes.html', {'recipes':all_recipes})
 
