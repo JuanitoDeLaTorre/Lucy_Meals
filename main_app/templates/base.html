@@ -11,18 +11,19 @@
     <title>Lucy Shopping</title>
 </head>
 <body>
-    <nav>
+<header>
+    <nav class="row">
         <div class="nav-wrapper teal lighten-2">
-            <a href="{% url 'home' %}" class="brand-logo">Logo</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Create Your Own</a></li>
-                <li><a href="#">Meal Plan</a></li>
-                <li><a href="#">Recipies</a></li>
+            <a href="{% url 'home' %}" class="brand-logo col s8 offset-1">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down col s3">
+                <li><a href="#" >Home</a></li>
+                <li><a href="#" >Create Your Own</a></li>
+                <li><a href="#" >Meal Plan</a></li>
+                <li><a href="#" >Recipes</a></li>
             </ul>
         </div>
     </nav>
-    
+</header>
     {% block content %}
     {% endblock %}
     

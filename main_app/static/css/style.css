@@ -1,4 +1,21 @@
 body{
     min-height: 100vh;
-   
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.page-footer {
+    padding: 25px;
+}
+
+nav {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    padding: auto 40px auto 40px;
 }
