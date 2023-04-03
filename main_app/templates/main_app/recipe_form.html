@@ -2,8 +2,16 @@
 
 {% block content %}
     <h1>Add New Recipe!</h1>
+    
     <form action="" method = "POST">
+        {% csrf_token %}
         {{ form.as_p }}
+        
         <input type="submit" class = "btn" value = "Submit New Recipe">
     </form>
+
+    <script>
+        const dayOf = document.getElementById('id_day_of_week')
+        M.FormSelect.init(dayOf);
+    </script>
 {% endblock %}
