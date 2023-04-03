@@ -1,5 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>David Blaine</h1>
+<h1 class="center">{{recipe.name}}</h1>
+<h4 class="center">{{recipe.category}}</h4>
+
+<section class="row container">
+    <div class="col s6">
+        <img src="{{recipe.img_url}}" alt="" class="responsive-img">
+    </div>
+    <div class="col s6">
+        <p>Ingredients:</p>
+        <ul>
+            <li>ingredient - quantity</li>
+            <li>ingredient - quantity</li>
+            <li>ingredient - quantity</li>
+            <li>ingredient - quantity</li>
+        </ul>
+    </div>
+
+</section>
+<section class="row container">
+<div class="col s6">
+    <p>stores</p>
+    <p>price total</p>
+</div>
+<div class="col s6">
+<a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn">delete recipe</a> 
+<a href="{% url 'recipes_update' recipe.id %}" class="teal btn">update recipe</a>
+</div>
+
+
+
+</section>
 {% endblock %}
