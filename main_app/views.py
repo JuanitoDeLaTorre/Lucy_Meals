@@ -38,8 +38,9 @@ def recipes(request):
     return render(request, 'recipes.html', {'recipes':all_recipes})
 
 
-def recipes_detail(request, recipes_id):
-    recipe = Recipe.objects.filter(id=recipes_id)
+def recipes_detail(request, recipe_id):
+    print("HITTING ROUTE!")
+    recipe = Recipe.objects.filter(id=recipe_id)
     return render(request, 'detail.html', {
         'recipe': recipe,
     })

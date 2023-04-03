@@ -6,11 +6,11 @@
     <div class="row container">
     {% for recipe in recipes %}
         <div class="col s4">
-            <div class=" card">
+            <div class="card hoverable">
                 <div class="card-content">
                     <div class="card-title">{{recipe.name}}</div>
                         <div class="card-body">Category: {{recipe.category}}</div>
-                        <div class="card-action"><a href="" class = "teal btn">View Details</a></div>
+                        <div class="card-action"><a href="{% url 'detail' recipe.id %}" class = "teal btn">View Details</a></div>
                 </div>
              </div>
          </div>
