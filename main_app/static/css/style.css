@@ -37,3 +37,8 @@ main {
     display: flex;
     justify-content: center;
 }
+
+#cards {
+    display: flex;
+    justify-content: space-between;
+}
