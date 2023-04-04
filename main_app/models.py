@@ -11,6 +11,7 @@ DAYS = (
     ('F', 'Friday'),
     ('Sa', 'Saturday'),
     ('S', 'Sunday'),
+    ('TBD', 'To Be Determined')
 )
 
 CATEGORY = (
@@ -39,7 +40,7 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=100, default="GABAGOOL")
     category = models.CharField(max_length=100, choices = CATEGORY, default="App")
-    day_of_week = models.CharField(max_length=255, default ="Monday")
+    day_of_week = models.CharField(max_length=255, choices=DAYS, default ="To Be Determined")
     img_url = models.URLField(max_length=300, default="")
     ingredients = models.ManyToManyField(Ingredient)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
@@ -47,4 +48,17 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
       return reverse('detail', kwargs={'recipe_id':self.id})
+    
+
+class MealPlan(models.Model):
+    monday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="monday", default = None)
+    tuesday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="tuesday", default = None)
+    wednesday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="wednesday", default = None)
+    thursday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="thursday", default = None)
+    friday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="friday", default = None)
+    saturday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="saturday", default = None)
+    sunday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="sunday", default = None)
+
+    def __str__(self):
+        return self.name
     

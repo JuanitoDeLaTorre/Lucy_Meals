@@ -2,19 +2,29 @@
 
 {% block content %}
 <h1 class="center">{{recipe.name}}</h1>
-<h4 class="center">{{recipe.category}}</h4>
+<h4 class="center grey-text">{{recipe.category}}</h4>
 
 <section class="row container">
     <div class="col s6">
         <img src="{{recipe.img_url}}" alt="" class="responsive-img">
     </div>
     <div class="col s6">
-        <p>Ingredients:</p>
+        <h4>Ingredients:</h4>
+        <div class="divider"></div>
         <ul>
-            <li>ingredient - quantity</li>
-            <li>ingredient - quantity</li>
-            <li>ingredient - quantity</li>
-            <li>ingredient - quantity</li>
+            {% for ing in recipe.ingredients.all %}
+            
+                <div class="col s4">
+                        <li class = "card" id = "ingredients">
+                        <div class="card-content" id = "ingredients">
+                            {{ing.name}}
+                        </div>
+                    </div>
+                
+            </li>
+            
+            
+            {% endfor %}
         </ul>
     </div>
 
@@ -25,8 +35,10 @@
     <p>price total</p>
 </div>
 <div class="col s6">
+{% if user.is_authenticated %}
 <a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn">delete recipe</a> 
 <a href="{% url 'recipes_update' recipe.id %}" class="teal btn">update recipe</a>
+{% endif %}
 </div>
 
 
