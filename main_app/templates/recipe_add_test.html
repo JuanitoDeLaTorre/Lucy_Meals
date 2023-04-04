@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s6">
+                <h4>Here are all the ingredients!</h4>
+            <ul id = "display-data">
+            </ul>
+            </div>
+            <div class="col s6">
+                <form id = "new_ing_form" method = "POST" action="">
+                    {% csrf_token %}
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id = "name">
+
+                    <label for="price">price</label>
+                    <input type="text" name="price" id = "price">
+
+                    <label for="calories">calories</label>
+                    <input type="text" name="calories" id = "calories">
+
+                    <label for="store">store</label>
+                    <input type="text" name="store" id = "store">
+
+                    <input type="submit" value = "Submit New Ingredient!" class = "teal lighten-3 btn">
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // $(document).ready(()=> {
+        //     setInterval(()=> {
+
+        //         $.ajax({
+        //             type: "GET",
+        //             url: "{% url 'get_ingredients' %}",
+        //             success: (response)=> {
+        //                 console.log(response)
+        //                 $('#display-data').empty()
+        //                 for (let key in response.ingredients)
+        //                 {
+        //                     // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+        //                     let temp = '<label><input type = "checkbox" /><span>' + response.ingredients[key].name + '</span></label><br>'
+                            
+        //                     console.log(temp)
+        //                     $('#display-data').append(temp)
+        //                 }
+        //             },
+        //             error: (response) => {
+        //                 alert("An error has occurred!")
+        //             }
+        //         })
+
+        //     }, 1000)
+        // })
+
+        $(document).on('submit', '#new_ing_form', (e)=> {
+            e.preventDefault()
+
+            $.ajax({
+                type: "POST",
+                url: '{% url "create_ingredient" %}',
+                data: {
+                    name: $('#name').val(),
+                    price: $('#price').val(),
+                    calories: $('#calories').val(),
+                    store: $('#store').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                }
+            })
+
+            setTimeout(()=>{
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_ingredients' %}",
+                    success: (response)=> {
+                        console.log(response)
+                        $('#display-data').empty()
+                        for (let key in response.ingredients)
+                        {
+                            // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+                            let temp = '<label><input type = "checkbox" /><span>' + response.ingredients[key].name + '</span></label><br>'
+                            
+                            console.log(temp)
+                            $('#display-data').append(temp)
+                        }
+                    },
+                    error: (response) => {
+                        alert("An error has occurred!")
+                    }
+                })
+            },1000)
+            
+
+            $('#new_ing_form')[0].reset()
+        })
+    </script>
+{% endblock %}

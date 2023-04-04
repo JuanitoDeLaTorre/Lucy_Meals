@@ -27,8 +27,8 @@ CATEGORY = (
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=50, default="banana")
-    price = models.IntegerField(default=1)
-    calories = models.IntegerField(default=100)
+    price = models.DecimalField(default=1, decimal_places=2, max_digits=5)
+    calories = models.IntegerField(default=1.00)
     store = models.CharField(max_length=30, default="Krogers")
     created_at = models.DateTimeField(auto_now_add=True)
 
