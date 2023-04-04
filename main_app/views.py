@@ -54,7 +54,8 @@ def recipes_detail(request, recipe_id):
 
 
 def recipes(request):
-    all_recipes = Recipe.objects.filter()
+    all_recipes = Recipe.objects.filter(user=request.user)
+    print(all_recipes)
 
     return render(request, 'recipes.html', {'recipes': all_recipes})
 
@@ -94,9 +95,11 @@ def new_recipe(request):
     recipe_category = request.POST['category']
     recipe_day_of_week = request.POST['day_of_week']
     recipe_img_url = request.POST['img_url']
+    recipe_user = request.user
 
 
-    new_recipe = Recipe(name=recipe_name,category=recipe_category,day_of_week=recipe_day_of_week,img_url=recipe_img_url)
+
+    new_recipe = Recipe(name=recipe_name,category=recipe_category,day_of_week=recipe_day_of_week,img_url=recipe_img_url,user=recipe_user)
     new_recipe.save()
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
