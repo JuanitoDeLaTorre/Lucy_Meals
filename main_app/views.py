@@ -3,6 +3,10 @@ from .models import Recipe, Ingredient
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
 from .forms import RecipeForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -22,19 +26,22 @@ def home(request):
                   )
 
 
-class RecipeCreate(CreateView):
+class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
     fields = ['name', 'category', 'day_of_week', 'img_url']
     success_url = '/recipes'
 
+    def from_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class RecipeUpdate(UpdateView):
+
+class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
     fields = ['name', 'category', 'day_of_week', 'img_url']
-   
 
 
-class RecipeDelete(DeleteView):
+class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
     success_url = '/recipes'
 
@@ -52,16 +59,20 @@ def recipes(request):
     return render(request, 'recipes.html', {'recipes': all_recipes})
 
 
+@login_required
 def meal_plan(request):
     return render(request, 'meal_plan.html')
 
+
 def get_ingredients(request):
     ingredients = Ingredient.objects.filter()
-    return JsonResponse({'ingredients':list(ingredients.values())})
+    return JsonResponse({'ingredients': list(ingredients.values())})
+
 
 def recipe_add(request):
     recipe_form = RecipeForm()
     return render(request, 'recipe_add.html', {'recipe_form':recipe_form})
+
 
 def create_ingredient(request):
     if request.method == "POST":
@@ -70,10 +81,12 @@ def create_ingredient(request):
         calories = request.POST['calories']
         store = request.POST['store']
 
-        new_ingredient = Ingredient(name=name,price=price,calories=calories,store=store)
+        new_ingredient = Ingredient(
+            name=name, price=price, calories=calories, store=store)
         new_ingredient.save()
 
         return HttpResponse('New Ingredient Created Successfully!')
+
 
 def new_recipe(request):
 
@@ -82,8 +95,18 @@ def new_recipe(request):
     recipe_day_of_week = request.POST['day_of_week']
     recipe_img_url = request.POST['img_url']
 
+
     new_recipe = Recipe(name=recipe_name,category=recipe_category,day_of_week=recipe_day_of_week,img_url=recipe_img_url)
     new_recipe.save()
+
+    for key in request.POST:
+        if key != "csrfmiddlewaretoken":
+            chosen_ingredients.append(key)
+
+    print(chosen_ingredients)
+
+    # ing_objs = []
+
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []
@@ -96,3 +119,18 @@ def new_recipe(request):
     # print(chosen_ingredients)
 
     return redirect('create_recipe')
+
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/recipes')
+        else:
+            error_message = 'Invalid sign up - try again'
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
