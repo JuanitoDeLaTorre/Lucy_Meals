@@ -5,7 +5,7 @@
     <div class="col s12 m6 offset-m3 center">
         <h5>Categories</h5>
         <div class="row">
-            <div class="col s4">
+            <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Appetizers</div>
@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Entrees</div>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Desserts</div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Beverages</div>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Sides</div>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-content center-align">
                         <div class="card-title">Baked Goods</div>
@@ -63,9 +63,65 @@
     </div>
     
     <section class="col s12 m3 right-align">
-        <div>
+        <div class="container">
             <h5>Meal Plan</h5>
-        </div>
+        
+
+                <table class="striped">
+                
+            
+                <tbody>
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Monday</td>
+                            <td>Carrots</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Tuesday</td>
+                            <td>Nachos</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Wednesday</td>
+                            <td>Fried Green Tomatoes</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Thursday</td>
+                            <td>Pot Roast</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Friday</td>
+                            <td>Leo's Hot Wings</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Saturday</td>
+                            <td>Wylie's Famous Boiled Eggs</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Sunday</td>
+                            <td>John's AirFryer Mashed Potatoes</td>
+                          </tr>
+                    </a>
+                </tbody>
+                </table>
+
     </section>
 </section>
 {% endblock %}
