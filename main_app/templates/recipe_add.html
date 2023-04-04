@@ -7,7 +7,7 @@
             <h4>Create Recipe</h4>
             <div class="divider"></div>
             <div class="form-parent">
-                    <form action="{% url 'tester' %}" method = "POST">
+                    <form action="{% url 'new_recipe' %}" method = "POST">
                         {% csrf_token %}
                         <!-- {{ recipe_form.as_p }} -->
                         <label for="name">Name:</label>
