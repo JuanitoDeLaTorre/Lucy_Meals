@@ -8,11 +8,17 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <title>Lucy Shopping</title>
 </head>
 <body>
 <header class="nav-fixed">
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{% url 'recipes' %}">Your Recipes</a></li>
+        <li class="divider"></li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+    </ul>
     <nav>
         <div class="nav-wrapper teal lighten-2">
             <a href="{% url 'home' %}" class="brand-logo valign-wrapper" style="padding: 0 50px; margin-bottom: 30px"><h4>Lucy Meals</h4></a>
@@ -21,7 +27,8 @@
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'create_recipe'%}">Create Your Own</a></li>
                 <li><a href="{% url 'meal_plan' %}">Meal Plan</a></li>
-                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                
+                <li><a href="#!" class="dropdown-trigger" href="#!" data-target="dropdown1">{{request.user.username|capfirst}}<i class="material-icons right">arrow_drop_down</i></a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">Log In</a></li>
                 {% endif %}
@@ -37,5 +44,12 @@
     <footer class="page-footer teal lighten-2">
         
     </footer>
+
+    <script>
+        $(document).ready( () => {
+        $(".dropdown-trigger").dropdown();
+        })
+    </script>
 </body>
 </html>
+
