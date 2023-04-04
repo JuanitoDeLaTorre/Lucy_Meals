@@ -99,15 +99,6 @@ def new_recipe(request):
     new_recipe = Recipe(name=recipe_name,category=recipe_category,day_of_week=recipe_day_of_week,img_url=recipe_img_url)
     new_recipe.save()
 
-    for key in request.POST:
-        if key != "csrfmiddlewaretoken":
-            chosen_ingredients.append(key)
-
-    print(chosen_ingredients)
-
-    # ing_objs = []
-
-
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []
 
