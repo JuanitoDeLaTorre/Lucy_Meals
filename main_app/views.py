@@ -48,14 +48,31 @@ class RecipeDelete(LoginRequiredMixin, DeleteView):
 
 def recipes_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
+
+    total_calories = 0
+    total_price = 0
+    stores = []
+
+    for ing in recipe.ingredients.all():
+        total_calories += ing.calories
+        total_price += ing.price
+        if ing.store not in stores:
+            stores.append(ing.store)
+    
+    print(total_calories)
+    print(total_price)
+    print(stores)
+
     return render(request, 'detail.html', {
-        'recipe': recipe,
+        'recipe': recipe, 'calories': total_calories, 'price':total_price, 'stores': stores
     })
 
 
 def recipes(request):
-    all_recipes = Recipe.objects.filter(user=request.user)
-    print(all_recipes)
+    if request.user.is_authenticated:
+        all_recipes = Recipe.objects.filter(user=request.user)
+    else:
+        all_recipes = Recipe.objects.filter()
 
     return render(request, 'recipes.html', {'recipes': all_recipes})
 
@@ -96,6 +113,11 @@ def new_recipe(request):
     recipe_day_of_week = request.POST['day_of_week']
     recipe_img_url = request.POST['img_url']
     recipe_user = request.user
+
+    # if request.POST['day_of_week'] != "To Be Determined":
+        
+    #     match request.POST['day_of_week']:
+    #         case 'monday':
 
 
 
