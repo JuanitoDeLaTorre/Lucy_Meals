@@ -31,11 +31,17 @@
 </section>
 <section class="row container">
 <div class="col s6">
-    <p>stores</p>
-    <p>price total</p>
+    
+    <p>Stores :</p>
+    <ul>
+    {% for store in stores %}
+        <li>{{store}}</li>
+    {% endfor %}
+    </ul>
+    <p>Price: ${{price}}</p>
 </div>
 <div class="col s6">
-{% if user.is_authenticated %}
+{% if recipe.user == user %}
 <a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn">delete recipe</a> 
 <a href="{% url 'recipes_update' recipe.id %}" class="teal btn">update recipe</a>
 {% endif %}
