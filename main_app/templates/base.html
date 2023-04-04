@@ -15,8 +15,8 @@
 <header class="nav-fixed">
     <nav>
         <div class="nav-wrapper teal lighten-2">
-            <a href="{% url 'home' %}" class="brand-logo" style="margin-left: 50px;">Logo</a>
-            <ul id="nav-mobile" class="right" style="margin-right: 50px;">
+            <a href="{% url 'home' %}" class="brand-logo" style="padding: 0 50px;">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 50px;">
                 <li><a href="{% url 'recipes'%}">Recipes</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'create_recipe'%}">Create Your Own</a></li>
