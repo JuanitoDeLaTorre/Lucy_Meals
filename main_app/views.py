@@ -69,9 +69,9 @@ def get_ingredients(request):
     return JsonResponse({'ingredients': list(ingredients.values())})
 
 
-def recipe_add_test(request):
+def recipe_add(request):
     recipe_form = RecipeForm()
-    return render(request, 'recipe_add_test.html', {'recipe_form': recipe_form})
+    return render(request, 'recipe_add.html', {'recipe_form':recipe_form})
 
 
 def create_ingredient(request):
@@ -88,10 +88,16 @@ def create_ingredient(request):
         return HttpResponse('New Ingredient Created Successfully!')
 
 
-def tester(request):
+def new_recipe(request):
 
-    print(request.POST)
-    chosen_ingredients = []
+    recipe_name = request.POST['name']
+    recipe_category = request.POST['category']
+    recipe_day_of_week = request.POST['day_of_week']
+    recipe_img_url = request.POST['img_url']
+
+
+    new_recipe = Recipe(name=recipe_name,category=recipe_category,day_of_week=recipe_day_of_week,img_url=recipe_img_url)
+    new_recipe.save()
 
     for key in request.POST:
         if key != "csrfmiddlewaretoken":
@@ -101,14 +107,16 @@ def tester(request):
 
     # ing_objs = []
 
-    # for ing in chosen_ingredients:
-    #     ing_objs.append(Ingredient.objects.filter(name=ing)[0])
 
-    # for swag in ing_objs:
-    #     print("Name: " + swag.name)
-    #     print("Price: " + str(swag.price))
-    #     print("calories: " + str(swag.calories))
-    #     print("Store: " + swag.store)
+    recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
+    # chosen_ingredients = []
+
+    #fetch just ingredients, append to list
+    for key,val in request.POST.items():
+        if val == 'on':
+            recipe_obj.ingredients.add(Ingredient.objects.filter(name=key)[0].id)
+    
+    # print(chosen_ingredients)
 
     return redirect('create_recipe')
 
