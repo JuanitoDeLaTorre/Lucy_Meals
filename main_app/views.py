@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Recipe, Ingredient
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
+from .forms import RecipeForm
 # Create your views here.
 
 
@@ -59,7 +60,8 @@ def get_ingredients(request):
     return JsonResponse({'ingredients':list(ingredients.values())})
 
 def recipe_add_test(request):
-    return render(request, 'recipe_add_test.html')
+    recipe_form = RecipeForm()
+    return render(request, 'recipe_add_test.html', {'recipe_form':recipe_form})
 
 def create_ingredient(request):
     if request.method == "POST":
@@ -75,6 +77,7 @@ def create_ingredient(request):
 
 def tester(request):
 
+    print(request.POST)
     chosen_ingredients = []
 
     for key in request.POST:
@@ -83,15 +86,15 @@ def tester(request):
     
     print(chosen_ingredients)
 
-    ing_objs = []
+    # ing_objs = []
 
-    for ing in chosen_ingredients:
-        ing_objs.append(Ingredient.objects.filter(name=ing)[0])
+    # for ing in chosen_ingredients:
+    #     ing_objs.append(Ingredient.objects.filter(name=ing)[0])
 
-    for swag in ing_objs:
-        print("Name: " + swag.name)
-        print("Price: " + str(swag.price))
-        print("calories: " + str(swag.calories))
-        print("Store: " + swag.store)
+    # for swag in ing_objs:
+    #     print("Name: " + swag.name)
+    #     print("Price: " + str(swag.price))
+    #     print("calories: " + str(swag.calories))
+    #     print("Store: " + swag.store)
 
     return redirect('create_recipe')
