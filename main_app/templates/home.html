@@ -2,12 +2,12 @@
 
 {% block content %}
 <section class="row container" id="flex-center">
-    <div class="col s12 m6 offset-m3 center">
+    <div class="center">
         <h5>Categories</h5>
-        <div class="row">
+        <div class="row responsive-table">
             <div class="col s12 m6 l4">
                 <div class="card">
-                    <div class="card-content center-align">
+                    <div class="card-content">
                         <div class="card-title">Appetizers</div>
                     <div class="card-body"># of recipes: {{appetizers|length}}</div>
                     <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
@@ -62,14 +62,11 @@
         </div>
     </div>
     
-    <section class="col s12 m3 right-align">
-        <div class="container">
-            <h5>Meal Plan</h5>
-        
-
-                <table class="striped">
-                
-            
+    <section class="col s12 m3 right-align responsive-table">
+        <div class="container right meal-plan-container">
+            <h5 class="meal-plan-heading">Meal Plan</h5>
+    
+            <table class="striped right-align">
                 <tbody>
                     <a href="{% url 'home' %}">
                         <tr class = "hoverable">
@@ -95,7 +92,7 @@
                     <a href="{% url 'home' %}">
                         <tr class = "hoverable">
                             <td>Thursday</td>
-                            <td>Pot Roast</td>
+                            <td>Ahmad's Famous Pot Roast</td>
                           </tr>
                     </a>
         
@@ -120,8 +117,23 @@
                           </tr>
                     </a>
                 </tbody>
-                </table>
+            </table>
 
     </section>
+
+    <style>
+        .meal-plan-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .meal-plan-heading {
+            margin-top: 0;
+        }
+
+    </style>
+
 </section>
 {% endblock %}
