@@ -5,8 +5,13 @@
         <div class="row">
             <div class="col s6">
                 <h4>Here are all the ingredients!</h4>
-            <ul id = "display-data">
-            </ul>
+            <form action="{% url 'tester' %}" method = "POST">
+                {% csrf_token %}
+                <ul id = "display-data">
+                </ul>
+                <input type="submit" class = "teal lighten-3 btn">
+            </form>
+            
             </div>
             <div class="col s6">
                 <form id = "new_ing_form" method = "POST" action="">
@@ -31,31 +36,29 @@
     </div>
 
     <script>
-        // $(document).ready(()=> {
-        //     setInterval(()=> {
+        $(document).ready(()=> {
 
-        //         $.ajax({
-        //             type: "GET",
-        //             url: "{% url 'get_ingredients' %}",
-        //             success: (response)=> {
-        //                 console.log(response)
-        //                 $('#display-data').empty()
-        //                 for (let key in response.ingredients)
-        //                 {
-        //                     // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-        //                     let temp = '<label><input type = "checkbox" /><span>' + response.ingredients[key].name + '</span></label><br>'
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_ingredients' %}",
+                    success: (response)=> {
+                        console.log(response)
+                        $('#display-data').empty()
+                        for (let key in response.ingredients)
+                        {
+                            // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+                            let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                             
-        //                     console.log(temp)
-        //                     $('#display-data').append(temp)
-        //                 }
-        //             },
-        //             error: (response) => {
-        //                 alert("An error has occurred!")
-        //             }
-        //         })
+                            console.log(temp)
+                            $('#display-data').append(temp)
+                        }
+                    },
+                    error: (response) => {
+                        alert("An error has occurred!")
+                    }
+                })
 
-        //     }, 1000)
-        // })
+        })
 
         $(document).on('submit', '#new_ing_form', (e)=> {
             e.preventDefault()
@@ -82,7 +85,7 @@
                         for (let key in response.ingredients)
                         {
                             // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-                            let temp = '<label><input type = "checkbox" /><span>' + response.ingredients[key].name + '</span></label><br>'
+                            let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                             
                             console.log(temp)
                             $('#display-data').append(temp)

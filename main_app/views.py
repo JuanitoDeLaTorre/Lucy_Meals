@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Recipe, Ingredient
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
@@ -72,3 +72,26 @@ def create_ingredient(request):
         new_ingredient.save()
 
         return HttpResponse('New Ingredient Created Successfully!')
+
+def tester(request):
+
+    chosen_ingredients = []
+
+    for key in request.POST:
+        if key != "csrfmiddlewaretoken":
+            chosen_ingredients.append(key)
+    
+    print(chosen_ingredients)
+
+    ing_objs = []
+
+    for ing in chosen_ingredients:
+        ing_objs.append(Ingredient.objects.filter(name=ing)[0])
+
+    for swag in ing_objs:
+        print("Name: " + swag.name)
+        print("Price: " + str(swag.price))
+        print("calories: " + str(swag.calories))
+        print("Store: " + swag.store)
+
+    return redirect('create_recipe')
