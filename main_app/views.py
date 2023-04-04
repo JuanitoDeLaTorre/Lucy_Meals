@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 # Create your views here.
 
 
@@ -36,9 +37,31 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class RecipeUpdate(LoginRequiredMixin, UpdateView):
-    model = Recipe
-    fields = ['name', 'category', 'day_of_week', 'img_url']
+# class RecipeUpdate(LoginRequiredMixin, UpdateView):
+#     model = Recipe
+#     fields = ['name', 'category', 'day_of_week', 'img_url']
+#     extra_context = {'recipe': Recipe.objects.filter()}
+
+def recipe_update(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    if request.method == 'POST':
+        recipe_name = request.POST['name']
+        recipe_category = request.POST['category']
+        recipe_day_of_week = request.POST['day_of_week']
+        recipe_img_url = request.POST['img_url']
+
+        recipe.name = recipe_name
+        recipe.category = recipe_category
+        recipe.day_of_week = recipe_day_of_week
+        recipe.img_url = recipe_img_url
+        recipe.ingredients.remove()
+        
+        for key, val in request.POST.items():
+            if val == 'on':
+                recipe.ingredients.add(Ingredient.objects.filter(name=key)[0].id)
+       
+        return redirect(reverse('detail', kwargs={"recipe_id": recipe_id}))
+    return render(request, 'recipe_update.html', {'recipe': recipe})
 
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
@@ -58,23 +81,25 @@ def recipes_detail(request, recipe_id):
         total_price += ing.price
         if ing.store not in stores:
             stores.append(ing.store)
-    
+
     print(total_calories)
     print(total_price)
     print(stores)
 
     return render(request, 'detail.html', {
-        'recipe': recipe, 'calories': total_calories, 'price':total_price, 'stores': stores
+        'recipe': recipe, 'calories': total_calories, 'price': total_price, 'stores': stores
     })
 
 
 def recipes(request):
-    if request.user.is_authenticated:
-        all_recipes = Recipe.objects.filter(user=request.user)
-    else:
-        all_recipes = Recipe.objects.filter()
-
+    all_recipes = Recipe.objects.filter()
     return render(request, 'recipes.html', {'recipes': all_recipes})
+
+
+@login_required
+def recipes_user(request):
+    all_recipes = Recipe.objects.filter(user=request.user)
+    return render(request, 'recipes_user.html', {'recipes': all_recipes})
 
 
 @login_required
@@ -89,7 +114,7 @@ def get_ingredients(request):
 
 def recipe_add(request):
     recipe_form = RecipeForm()
-    return render(request, 'recipe_add.html', {'recipe_form':recipe_form})
+    return render(request, 'recipe_add.html', {'recipe_form': recipe_form})
 
 
 def create_ingredient(request):
@@ -115,23 +140,23 @@ def new_recipe(request):
     recipe_user = request.user
 
     # if request.POST['day_of_week'] != "To Be Determined":
-        
+
     #     match request.POST['day_of_week']:
     #         case 'monday':
 
-
-
-    new_recipe = Recipe(name=recipe_name,category=recipe_category,day_of_week=recipe_day_of_week,img_url=recipe_img_url,user=recipe_user)
+    new_recipe = Recipe(name=recipe_name, category=recipe_category,
+                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []
 
-    #fetch just ingredients, append to list
-    for key,val in request.POST.items():
+    # fetch just ingredients, append to list
+    for key, val in request.POST.items():
         if val == 'on':
-            recipe_obj.ingredients.add(Ingredient.objects.filter(name=key)[0].id)
-    
+            recipe_obj.ingredients.add(
+                Ingredient.objects.filter(name=key)[0].id)
+
     # print(chosen_ingredients)
 
     return redirect('create_recipe')
