@@ -54,13 +54,17 @@ main {
 .search-form {
     position: absolute;
     right: 670px;
-    width: 25%;
+    top: 8px;
+    height: 75%;
+    width: 30%;
     margin-right: 50px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
     background-color: white;
     border-radius: 30px;
+    padding-left: 25px;
 }
 
-.search-form input[type="text"]:focus {
-    border-radius: 30px !important;
+.input-field {
+    width: 15%;
+    bottom: 10px;
 }

@@ -32,8 +32,8 @@
                 <form class="search-form" method="POST" action="{% url 'search_recipes' %}">
                     {% csrf_token %}
                     
-                    <div class="input-field">
-                        <input type="search" id="search" placeholder="Search Recipes" name="searched">
+                    <div>
+                        <input type="search" id="search" class="input-field" placeholder="Search Recipes and Categories" name="searched">
                         <label for="search" class="label-icon"></label>
                         <i class="material-icons">close</i>
                     </div>
