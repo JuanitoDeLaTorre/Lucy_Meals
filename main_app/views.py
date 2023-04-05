@@ -110,7 +110,11 @@ def meal_plan(request):
 
 
 def meal_add(request):
-    return render(request, 'meal_add.html')
+    recipes =  Recipe.objects.filter()
+    current_meals = MealPlan.objects.filter(user=request.user)
+   
+        
+    return render(request, 'meal_add.html',{'recipes': recipes, 'current_meals': current_meals})
 
 
 def get_ingredients(request):

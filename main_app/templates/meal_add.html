@@ -2,12 +2,41 @@
 
 {% block content %}
 <h1 class="center">Add Meal</h1>
+<br><br>
+<form action="{{url 'meal_add' }}" method="POST">
+    <section class="row container center">
+    <form action="">
+    <label for="day_of_week" style="font-size: 1.7em;" class="white">Day of the Week:</label>
+    <br>
+    <select name="day_of_week" id="id_day_of_week">
+        <option value="Monday">Monday • {{current_meals.monday}}</option>
+        <option value="Tuesday">Tuesday • {{current_meals.tuesday}}</option>
+        <option value="Wednesday">Wednesday • {{current_meals.wednesday}}</option>
+        <option value="Thursday">Thursday • {{current_meals.thursday}}</option>
+        <option value="Friday">Friday • {{current_meals.friday}}</option>
+        <option value="Saturday">Saturday • {{current_meals.saturday}}</option>
+        <option value="Sunday">Sunday • {{current_meals.sunday}}</option>
+    </select>
+    <br><br><br><br>
+<p></p>
+    <label for="recipes" class="white" style="font-size: 1.7em;">Available Recipes:</label>
 
-<form action="" method="POST">
-
-
+    <select name="recipes" id="recipes">
+        {% for recipe in recipes %}
+        <option value="{{recipe}}">{{recipe}}</option>
+        {% endfor %}
+    </select>
+<br><br><br>
+<input type="submit" class="btn teal lighten-3">
+    </form>
+    </section>
 
 </form>
 
-
+<script>
+     const dayOf = document.getElementById('id_day_of_week')
+        M.FormSelect.init(dayOf);
+     const meal = document.getElementById('recipes')
+        M.FormSelect.init(meal);
+</script>
 {% endblock %}
