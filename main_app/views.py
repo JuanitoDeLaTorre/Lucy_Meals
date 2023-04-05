@@ -14,16 +14,17 @@ from django.urls import reverse
 def home(request):
     recipe = Recipe.objects.filter()
 
-    appetizers = Recipe.objects.filter(category='Appetizer')
-    entree = Recipe.objects.filter(category='Entree')
-    dessert = Recipe.objects.filter(category='Dessert')
-    beverage = Recipe.objects.filter(category='Beverage')
-    side = Recipe.objects.filter(category='Side')
-    baked_good = Recipe.objects.filter(category='Baked Good')
+    appetizers = len(Recipe.objects.filter(category='Appetizer'))
+    entree = len(Recipe.objects.filter(category='Entree'))
+    dessert = len(Recipe.objects.filter(category='Dessert'))
+    beverage = len(Recipe.objects.filter(category='Beverage'))
+    side = len(Recipe.objects.filter(category='Side'))
+    baked_good = len(Recipe.objects.filter(category='Baked Good'))
+    print(baked_good)
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
-                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good}
+                      'entree': entree, 'beverage': beverage, 'side': side, 'baked_good': baked_good}
                   )
 
 
@@ -91,9 +92,13 @@ def recipes_detail(request, recipe_id):
     })
 
 
-def recipes(request):
-    all_recipes = Recipe.objects.filter()
-    return render(request, 'recipes.html', {'recipes': all_recipes})
+def recipes(request,recipe_category):
+    if recipe_category != "all":
+        recipes = Recipe.objects.filter(category=recipe_category)
+    else:
+        recipes = Recipe.objects.filter()
+    
+    return render(request, 'recipes.html', {'recipes': recipes})
 
 
 @login_required
@@ -178,3 +183,5 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+

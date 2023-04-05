@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="center">Recipes</h1>
+<h1 class="center">{{recipes.0.category}}s</h1>
     
     <div class="row container">
     {% for recipe in recipes %}
