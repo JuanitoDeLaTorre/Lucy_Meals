@@ -62,6 +62,8 @@ class MealPlan(models.Model):
     saturday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="saturday", default = None)
     sunday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="sunday", default = None)
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
     def __str__(self):
         return self.name
     
