@@ -13,7 +13,7 @@ from django.urls import reverse
 
 def home(request):
     recipe = Recipe.objects.filter()
-    meal_plan = MealPlan.objects.filter(user=request.user)[0]
+    meal_plan = MealPlan.objects.filter(user=request.user).first()
     appetizers = Recipe.objects.filter(category='Appetizer')
     entree = Recipe.objects.filter(category='Entree')
     dessert = Recipe.objects.filter(category='Dessert')
@@ -105,7 +105,7 @@ def recipes_user(request):
 
 @login_required
 def meal_plan(request):
-    meal_plan = MealPlan.objects.filter(user=request.user)[0]
+    meal_plan = MealPlan.objects.filter(user=request.user).first()
     return render(request, 'meal_plan.html', {'meal_plan':meal_plan})
 
 
