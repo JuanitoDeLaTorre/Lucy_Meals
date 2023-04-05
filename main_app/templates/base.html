@@ -27,9 +27,9 @@
             
             <a href="{% url 'home' %}" class="brand-logo valign-wrapper" style="padding: 0 50px; margin-bottom: 30px"><h4>Lucy Meals</h4></a>
 
-            <!-- <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         
-                <form class="search-form">
+                <form class="search-form" action="{% url 'search' %}">
                     <div class="input-field">
                         <input type="search" id="search" placeholder="Search">
                         <label for="search" class="label-icon"></label>
