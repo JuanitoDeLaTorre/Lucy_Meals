@@ -32,7 +32,7 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
     fields = ['name', 'category', 'day_of_week', 'img_url']
     success_url = '/recipes'
 
-    def from_valid(self, form):
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -105,7 +105,12 @@ def recipes_user(request):
 
 @login_required
 def meal_plan(request):
+    meal_plan = MealPlan()
     return render(request, 'meal_plan.html')
+
+
+def meal_add(request):
+    return render(request, 'meal_add.html')
 
 
 def get_ingredients(request):
@@ -173,7 +178,6 @@ def signup(request):
             # link meal plan to user here
             meal_plan = MealPlan(user=request.user)
             meal_plan.save()
-            print(meal_plan.monday)
             return redirect('/recipes')
         else:
             error_message = 'Invalid sign up - try again'
