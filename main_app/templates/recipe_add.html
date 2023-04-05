@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s7 white" style="margin-top:30px;">
+            <h4>Create Recipe</h4>
+            <div class="divider"></div>
+            <div class="form-parent">
+                    <form action="{% url 'new_recipe' %}" method = "POST">
+                        {% csrf_token %}
+                        <!-- {{ recipe_form.as_p }} -->
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" id="id_name">
+    
+                        <label for="category">Category:</label>
+                        <select name="category" id="id_category">
+                            <option value="Appetizer">Appetizer</option>
+                            <option value="Side">Side</option>
+                            <option value="Entree">Entree</option>
+                            <option value="Beverage">Beverage</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Baked Good">Baked Good</option>
+                        </select>
+    
+                        <label for="day_of_week">Day of the Week:</label>
+                        <p class = "grey-text text-lighten-1">Day of the Week</p>
+                        <br>
+                        <select name="day_of_week" id="id_day_of_week">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                            <option value="TBD">To Be Determined</option>
+                        </select>
+    
+                        <label for="img_url">Image URL:</label>
+                        <p class = "grey-text text-lighten-1">Image URL:</p>
+                        <input type="text" name="img_url" id="id_img_url">
+    
+                    <h4>Available Ingredients</h4>
+                    <div class="divider"></div>
+                
+                    <ul id = "display-data">
+                        <!-- ALL INGREDIENTS ARE FILLED HERE -->
+                    </ul>
+                    <input type="submit" class = "teal lighten-3 btn" value = "Submit Recipe">
+                </form>
+            </div>
+                
+            
+            </div>
+            <div class="col s4 white" style = "border: solid black 2px; padding: 10px; margin-left: 40px; margin-top:40px;">
+                <h4>Create New Ingredient</h4>
+                <div class="divider"></div>
+                <form id = "new_ing_form" method = "POST" action="">
+                    {% csrf_token %}
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id = "name">
+
+                    <label for="price">price</label>
+                    <input type="text" name="price" id = "price">
+
+                    <label for="calories">calories</label>
+                    <input type="text" name="calories" id = "calories">
+
+                    <label for="store">store</label>
+                    <input type="text" name="store" id = "store">
+
+                    <input type="submit" value = "Submit New Ingredient!" class = "teal lighten-3 btn">
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        // Init Materialize dropdowns
+        const dayOf = document.getElementById('id_day_of_week')
+        M.FormSelect.init(dayOf);
+
+        const cat = document.getElementById('id_category')
+        M.FormSelect.init(cat)
+
+        $(document).ready(()=> {
+
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_ingredients' %}",
+                    success: (response)=> {
+                        console.log(response)
+                        $('#display-data').empty()
+                        for (let key in response.ingredients)
+                        {
+                            // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+                            let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                            
+                            console.log(temp)
+                            $('#display-data').append(temp)
+                        }
+                    },
+                    error: (response) => {
+                        alert("An error has occurred!")
+                    }
+                })
+
+        })
+
+        $(document).on('submit', '#new_ing_form', (e)=> {
+            e.preventDefault()
+
+            $.ajax({
+                type: "POST",
+                url: '{% url "create_ingredient" %}',
+                data: {
+                    name: $('#name').val(),
+                    price: $('#price').val(),
+                    calories: $('#calories').val(),
+                    store: $('#store').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                }
+            })
+
+            setTimeout(()=>{
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_ingredients' %}",
+                    success: (response)=> {
+                        console.log(response)
+                        $('#display-data').empty()
+                        for (let key in response.ingredients)
+                        {
+                            // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+                            let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                            
+                            console.log(temp)
+                            $('#display-data').append(temp)
+                        }
+                    },
+                    error: (response) => {
+                        alert("An error has occurred!")
+                    }
+                })
+            },1000)
+            
+
+            $('#new_ing_form')[0].reset()
+        })
+    </script>
+{% endblock %}

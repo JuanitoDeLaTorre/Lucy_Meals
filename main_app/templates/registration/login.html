@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="center">Log In</h1>
+<section class=" row container">
+<form method="POST" action="{% url 'login' %}" class="col s6 offset-s3">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit" class="btn">Log In</button>
+    <a class="btn red lighten-2 btn"href="{% url 'signup' %}">Sign Up</a>
+</form>
+</section>
+
+{% endblock %}

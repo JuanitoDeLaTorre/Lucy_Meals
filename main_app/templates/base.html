@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>Lucy Shopping</title>
+</head>
+<body>
+<header class="nav-fixed">
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{% url 'recipes_user' %}">Your Recipes</a></li>
+        <li class="divider"></li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+    </ul>
+    <nav>
+        <div class="nav-wrapper teal lighten-2">
+            <a href="{% url 'home' %}" class="brand-logo valign-wrapper" style="padding: 0 50px; margin-bottom: 30px"><h4>Lucy Meals</h4></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 50px;">
+                <li><a href="{% url 'recipes'%}">Recipes</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'create_recipe'%}">Create Your Own</a></li>
+                <li><a href="{% url 'meal_plan' %}">Meal Plan</a></li>
+                
+                <li><a href="#!" class="dropdown-trigger" href="#!" data-target="dropdown1">{{request.user.username|capfirst}}<i class="material-icons right">arrow_drop_down</i></a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Log In</a></li>
+                {% endif %}
+
+        </div>
+    </nav>
+</header>
+    <main>
+    {% block content %}
+    {% endblock %}
+    </main>
+    
+    <footer class="page-footer teal lighten-2">
+        
+    </footer>
+
+    <script>
+        $(document).ready( () => {
+        $(".dropdown-trigger").dropdown();
+        })
+    </script>
+</body>
+</html>
+

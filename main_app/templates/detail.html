@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="center title">
+<h1 class=" ">{{recipe.name}}</h1>
+<h4 class=" grey-text">{{recipe.category}}</h4>
+</section>
+<section class="row container">
+    <div class="col s6">
+        <img src="{{recipe.img_url}}" alt="" class="responsive-img">
+    </div>
+    <div class="col s6">
+        <h4 class="white">Ingredients:</h4>
+        <div class="divider"></div>
+        <ul>
+            {% for ing in recipe.ingredients.all %}
+            
+                <div class="col s4">
+                        <li class = "card" id = "ingredients">
+                        <div class="card-content" id = "ingredients">
+                            {{ing.name}}
+                        </div>
+                    </div>
+                
+            </li>
+            
+            
+            {% endfor %}
+        </ul>
+    </div>
+
+</section>
+<section class="row container">
+<div class="col s2 card center">
+    
+    <p>Store(s):</p>
+    <ul>
+    {% for store in stores %}
+        <li >{{store}}</li>
+    {% endfor %}
+</ul>
+</div>
+<div class="col s1"></div>
+<div class="col s2 card center">
+    <p class="">Price: ${{price}}</p>
+</div>
+
+<div class="col s6 push-s3 ">
+{% if recipe.user == user %}
+<a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn">delete recipe</a> 
+<a href="{% url 'recipes_update' recipe.id %}" class="teal btn">update recipe</a>
+{% endif %}
+</div>
+
+
+</section>
+{% endblock %}

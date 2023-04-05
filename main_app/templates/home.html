@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="row container" id="flex-center">
+    <div class="center">
+        <h5>Categories</h5>
+        <div class="row responsive-table">
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Appetizers</div>
+                    <div class="card-body"># of recipes: {{appetizers|length}}</div>
+                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <div class="card-title">Entrees</div>
+                    <div class="card-body"># of recipes: {{entrees|length}}</div>
+                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <div class="card-title">Desserts</div>
+                    <div class="card-body"># of recipes: {{desserts|length}}</div>
+                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <div class="card-title">Beverages</div>
+                    <div class="card-body"># of recipes: {{beverages|length}}</div>
+                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <div class="card-title">Sides</div>
+                    <div class="card-body"># of recipes: {{sides|length}}</div>
+                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <div class="card-title">Baked Goods</div>
+                    <div class="card-body"># of recipes: {{baked_goods|length}}</div>
+                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="col s12 m3 right-align responsive-table">
+        <div class="container right meal-plan-container">
+            <h5 class="meal-plan-heading">Meal Plan</h5>
+    
+            <table class="striped right-align white">
+                <tbody>
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable red lighten-5">
+                            <td>Monday</td>
+                            <td>Carrots</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Tuesday</td>
+                            <td>Nachos</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable red lighten-5">
+                            <td>Wednesday</td>
+                            <td>Fried Green Tomatoes</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Thursday</td>
+                            <td>Ahmad's Famous Pot Roast</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable red lighten-5">
+                            <td>Friday</td>
+                            <td>Leo's Hot Wings</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable">
+                            <td>Saturday</td>
+                            <td>Wylie's Famous Boiled Eggs</td>
+                          </tr>
+                    </a>
+        
+                    <a href="{% url 'home' %}">
+                        <tr class = "hoverable red lighten-5">
+                            <td>Sunday</td>
+                            <td>John's AirFryer Mashed Potatoes</td>
+                          </tr>
+                    </a>
+                </tbody>
+            </table>
+
+    </section>
+
+    <style>
+        .meal-plan-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .meal-plan-heading {
+            margin-top: 0;
+        }
+
+    </style>
+
+</section>
+{% endblock %}
