@@ -54,12 +54,12 @@ class Recipe(models.Model):
     
 
 class MealPlan(models.Model):
-    monday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="monday", default = 1)
-    tuesday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="tuesday", default = 1)
-    wednesday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="wednesday", default = 1)
-    thursday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="thursday", default = 1)
-    friday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="friday", default = 1)
-    saturday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="saturday", default = 1)
-    sunday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="sunday", default = 1)
+    monday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="monday", null=True, blank=True)
+    tuesday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="tuesday", null=True, blank=True)
+    wednesday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="wednesday", null=True, blank=True)
+    thursday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="thursday", null=True, blank=True)
+    friday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="friday", null=True, blank=True)
+    saturday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="saturday", null=True, blank=True)
+    sunday = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="sunday", null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  
     
