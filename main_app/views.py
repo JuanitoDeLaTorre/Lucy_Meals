@@ -149,10 +149,25 @@ def new_recipe(request):
                         day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
 
-    # if request.POST['day_of_week'] != "To Be Determined":
+    meal_plan = MealPlan.objects.get(user=request.user)
 
-    #     match request.POST['day_of_week']:
-    #         case 'monday': MealPlan.monday = new_recipe.id
+    if recipe_day_of_week != "To Be Determined":
+        if recipe_day_of_week == 'Monday':
+            meal_plan.monday = new_recipe
+        elif recipe_day_of_week == 'Tuesday':
+            meal_plan.tuesday = new_recipe
+        elif recipe_day_of_week == 'Wednesday':
+            meal_plan.wednesday = new_recipe
+        elif recipe_day_of_week == 'Thursday':
+            meal_plan.thursday = new_recipe
+        elif recipe_day_of_week == 'Friday':
+            meal_plan.friday = new_recipe
+        elif recipe_day_of_week == 'Saturday':
+            meal_plan.saturday = new_recipe
+        elif recipe_day_of_week == 'Sunday':
+            meal_plan.sunday = new_recipe
+    
+    meal_plan.save()
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []
