@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if searched %}
+
+    {% if recipes.all|length == 0 %}
+        <h1>No Results</h1>
+    {% endif %}
+        <h4 class="center">Search Results For: {{searched}}</h4>
+        <div class="divider"></div>
+        <br>
+        <div class="row container">
+            {% for recipe in recipes %}
+                <div class="col s4">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <div class="card-title">{{recipe.name}}</div>
+                                <div class="card-body">Category: {{recipe.category}}</div>
+                                <div class="card-body">User: {{recipe.user}}</div>
+                                <div class="card-action"><a href="{% url 'detail' recipe.id %}" class = "teal btn">View Details</a></div>
+                        </div>
+                     </div>
+                 </div>
+                {% endfor %}
+            </div>
+
+    {% else %}
+        <h1>Loser! You Forgot To Search For A Recipe...</h1>
+    {% endif %}
+{% endblock %}

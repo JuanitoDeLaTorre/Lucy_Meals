@@ -29,9 +29,11 @@
 
             <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         
-                <form class="search-form" action="{% url 'search' %}">
+                <form class="search-form" method="POST" action="{% url 'search_recipes' %}">
+                    {% csrf_token %}
+                    
                     <div class="input-field">
-                        <input type="search" id="search" placeholder="Search">
+                        <input type="search" id="search" placeholder="Search Recipes" name="searched">
                         <label for="search" class="label-icon"></label>
                         <i class="material-icons">close</i>
                     </div>

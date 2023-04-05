@@ -14,4 +14,5 @@ urlpatterns = [
     path('recipes/get_ingredients', views.get_ingredients, name = "get_ingredients"),
     path('create_ingredient', views.create_ingredient, name = "create_ingredient"),
     path('accounts/signup/', views.signup, name='signup'),
+    path('search_recipes', views.search_recipes, name='search_recipes')
 ]
