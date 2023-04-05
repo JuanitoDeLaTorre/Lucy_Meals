@@ -207,3 +207,14 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+def search_recipes(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        recipes = Recipe.objects.filter(name__icontains=searched)
+        return render (request, 'search_recipes.html',
+                       {'searched' : searched, 'recipes': recipes})
+    else:
+        return render (request, 'search_recipes.html',
+                       {})
+    

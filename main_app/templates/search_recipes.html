@@ -5,8 +5,8 @@
     {% if searched %}
 
     {% if recipes.all|length == 0 %}
-        <h1>No Results</h1>
-    {% endif %}
+        <h4 class="center">No Results for: {{searched}}</h4>
+    {% else%}
         <h4 class="center">Search Results For: {{searched}}</h4>
         <div class="divider"></div>
         <br>
@@ -24,7 +24,7 @@
                  </div>
                 {% endfor %}
             </div>
-
+        {% endif %}
     {% else %}
         <h1>Loser! You Forgot To Search For A Recipe...</h1>
     {% endif %}
