@@ -211,7 +211,12 @@ def signup(request):
 def search_recipes(request):
     if request.method == "POST":
         searched = request.POST['searched']
-        recipes = Recipe.objects.filter(name__icontains=searched)
+        categories = ['Appetizer', 'Entree', 'Dessert', 'Beverage', 'Side', 'Baked Good']
+        if searched in categories:
+            print(searched)
+            recipes = Recipe.objects.filter(category=searched)
+        else:
+            recipes = Recipe.objects.filter(name__icontains=searched)
         return render (request, 'search_recipes.html',
                        {'searched' : searched, 'recipes': recipes})
     else:
