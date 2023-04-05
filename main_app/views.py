@@ -139,14 +139,16 @@ def new_recipe(request):
     recipe_img_url = request.POST['img_url']
     recipe_user = request.user
 
-    # if request.POST['day_of_week'] != "To Be Determined":
-
-    #     match request.POST['day_of_week']:
-    #         case 'monday':
+    
 
     new_recipe = Recipe(name=recipe_name, category=recipe_category,
                         day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
+
+    # if request.POST['day_of_week'] != "To Be Determined":
+
+    #     match request.POST['day_of_week']:
+    #         case 'monday': MealPlan.monday = new_recipe.id
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []
