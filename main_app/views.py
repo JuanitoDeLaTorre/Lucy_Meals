@@ -55,11 +55,12 @@ def recipe_update(request, recipe_id):
         recipe.day_of_week = recipe_day_of_week
         recipe.img_url = recipe_img_url
         recipe.ingredients.remove()
-        
+
         for key, val in request.POST.items():
             if val == 'on':
-                recipe.ingredients.add(Ingredient.objects.filter(name=key)[0].id)
-       
+                recipe.ingredients.add(
+                    Ingredient.objects.filter(name=key)[0].id)
+
         return redirect(reverse('detail', kwargs={"recipe_id": recipe_id}))
     return render(request, 'recipe_update.html', {'recipe': recipe})
 
@@ -139,8 +140,6 @@ def new_recipe(request):
     recipe_img_url = request.POST['img_url']
     recipe_user = request.user
 
-    
-
     new_recipe = Recipe(name=recipe_name, category=recipe_category,
                         day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
@@ -172,6 +171,9 @@ def signup(request):
             user = form.save()
             login(request, user)
             # link meal plan to user here
+            meal_plan = MealPlan(user=request.user)
+            meal_plan.save()
+            print(meal_plan.monday)
             return redirect('/recipes')
         else:
             error_message = 'Invalid sign up - try again'
