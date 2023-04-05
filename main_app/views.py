@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Recipe, Ingredient
+from .models import Recipe, Ingredient, MealPlan
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
 from .forms import RecipeForm
