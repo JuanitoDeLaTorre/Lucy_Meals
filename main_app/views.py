@@ -13,7 +13,7 @@ from django.urls import reverse
 
 def home(request):
     recipe = Recipe.objects.filter()
-
+    meal_plan = MealPlan.objects.filter(user=request.user)[0]
     appetizers = Recipe.objects.filter(category='Appetizer')
     entree = Recipe.objects.filter(category='Entree')
     dessert = Recipe.objects.filter(category='Dessert')
@@ -23,7 +23,7 @@ def home(request):
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
-                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good}
+                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good, 'meal_plan':meal_plan}
                   )
 
 
@@ -105,14 +105,33 @@ def recipes_user(request):
 
 @login_required
 def meal_plan(request):
-    meal_plan = MealPlan()
-    return render(request, 'meal_plan.html')
+    meal_plan = MealPlan.objects.filter(user=request.user)[0]
+    return render(request, 'meal_plan.html', {'meal_plan':meal_plan})
 
 
 def meal_add(request):
     recipes =  Recipe.objects.filter()
-    current_meals = MealPlan.objects.filter(user=request.user)
-   
+    current_meals = MealPlan.objects.filter(user=request.user)[0]
+    recipe_day_of_week = request.POST.get('day_of_week')
+    new_recipe = Recipe.objects.filter(name=request.POST.get('recipes')).first()
+    print(new_recipe)
+    if request.method == 'POST':
+        if recipe_day_of_week == 'Monday':
+            current_meals.monday = new_recipe
+        elif recipe_day_of_week == 'Tuesday':
+            current_meals.tuesday = new_recipe
+        elif recipe_day_of_week == 'Wednesday':
+            current_meals.wednesday = new_recipe
+        elif recipe_day_of_week == 'Thursday':
+            current_meals.thursday = new_recipe
+        elif recipe_day_of_week == 'Friday':
+            current_meals.friday = new_recipe
+        elif recipe_day_of_week == 'Saturday':
+            current_meals.saturday = new_recipe
+        elif recipe_day_of_week == 'Sunday':
+            current_meals.sunday = new_recipe
+        current_meals.save()
+        return redirect(reverse('meal_plan'))
         
     return render(request, 'meal_add.html',{'recipes': recipes, 'current_meals': current_meals})
 
@@ -153,25 +172,10 @@ def new_recipe(request):
                         day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
 
-    meal_plan = MealPlan.objects.get(user=request.user)
+    # if request.POST['day_of_week'] != "To Be Determined":
 
-    if recipe_day_of_week != "To Be Determined":
-        if recipe_day_of_week == 'Monday':
-            meal_plan.monday = new_recipe
-        elif recipe_day_of_week == 'Tuesday':
-            meal_plan.tuesday = new_recipe
-        elif recipe_day_of_week == 'Wednesday':
-            meal_plan.wednesday = new_recipe
-        elif recipe_day_of_week == 'Thursday':
-            meal_plan.thursday = new_recipe
-        elif recipe_day_of_week == 'Friday':
-            meal_plan.friday = new_recipe
-        elif recipe_day_of_week == 'Saturday':
-            meal_plan.saturday = new_recipe
-        elif recipe_day_of_week == 'Sunday':
-            meal_plan.sunday = new_recipe
-    
-    meal_plan.save()
+    #     match request.POST['day_of_week']:
+    #         case 'monday': MealPlan.monday = new_recipe.id
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []

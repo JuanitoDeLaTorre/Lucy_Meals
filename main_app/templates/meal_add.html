@@ -3,13 +3,13 @@
 {% block content %}
 <h1 class="center">Add Meal</h1>
 <br><br>
-<form action="{{url 'meal_add' }}" method="POST">
+<form action="{%url 'meal_add' %}" method="POST">
+    {% csrf_token %}
     <section class="row container center">
-    <form action="">
     <label for="day_of_week" style="font-size: 1.7em;" class="white">Day of the Week:</label>
     <br>
     <select name="day_of_week" id="id_day_of_week">
-        <option value="Monday">Monday • {{current_meals.monday}}</option>
+        <option value="Monday">Monday • Current Meal: {{current_meals.monday}}</option>
         <option value="Tuesday">Tuesday • {{current_meals.tuesday}}</option>
         <option value="Wednesday">Wednesday • {{current_meals.wednesday}}</option>
         <option value="Thursday">Thursday • {{current_meals.thursday}}</option>
@@ -28,7 +28,7 @@
     </select>
 <br><br><br>
 <input type="submit" class="btn teal lighten-3">
-    </form>
+  
     </section>
 
 </form>
