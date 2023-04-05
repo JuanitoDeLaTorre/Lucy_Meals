@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Recipe, Ingredient
+from .models import Recipe, Ingredient, MealPlan
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
 from .forms import RecipeForm
@@ -13,7 +13,7 @@ from django.urls import reverse
 
 def home(request):
     recipe = Recipe.objects.filter()
-
+    meal_plan = MealPlan.objects.filter(user=request.user)[0]
     appetizers = Recipe.objects.filter(category='Appetizer')
     entree = Recipe.objects.filter(category='Entree')
     dessert = Recipe.objects.filter(category='Dessert')
@@ -23,7 +23,7 @@ def home(request):
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
-                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good}
+                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good, 'meal_plan':meal_plan}
                   )
 
 
@@ -32,7 +32,7 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
     fields = ['name', 'category', 'day_of_week', 'img_url']
     success_url = '/recipes'
 
-    def from_valid(self, form):
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -55,11 +55,12 @@ def recipe_update(request, recipe_id):
         recipe.day_of_week = recipe_day_of_week
         recipe.img_url = recipe_img_url
         recipe.ingredients.remove()
-        
+
         for key, val in request.POST.items():
             if val == 'on':
-                recipe.ingredients.add(Ingredient.objects.filter(name=key)[0].id)
-       
+                recipe.ingredients.add(
+                    Ingredient.objects.filter(name=key)[0].id)
+
         return redirect(reverse('detail', kwargs={"recipe_id": recipe_id}))
     return render(request, 'recipe_update.html', {'recipe': recipe})
 
@@ -104,7 +105,35 @@ def recipes_user(request):
 
 @login_required
 def meal_plan(request):
-    return render(request, 'meal_plan.html')
+    meal_plan = MealPlan.objects.filter(user=request.user)[0]
+    return render(request, 'meal_plan.html', {'meal_plan':meal_plan})
+
+
+def meal_add(request):
+    recipes =  Recipe.objects.filter()
+    current_meals = MealPlan.objects.filter(user=request.user)[0]
+    recipe_day_of_week = request.POST.get('day_of_week')
+    new_recipe = Recipe.objects.filter(name=request.POST.get('recipes')).first()
+    print(new_recipe)
+    if request.method == 'POST':
+        if recipe_day_of_week == 'Monday':
+            current_meals.monday = new_recipe
+        elif recipe_day_of_week == 'Tuesday':
+            current_meals.tuesday = new_recipe
+        elif recipe_day_of_week == 'Wednesday':
+            current_meals.wednesday = new_recipe
+        elif recipe_day_of_week == 'Thursday':
+            current_meals.thursday = new_recipe
+        elif recipe_day_of_week == 'Friday':
+            current_meals.friday = new_recipe
+        elif recipe_day_of_week == 'Saturday':
+            current_meals.saturday = new_recipe
+        elif recipe_day_of_week == 'Sunday':
+            current_meals.sunday = new_recipe
+        current_meals.save()
+        return redirect(reverse('meal_plan'))
+        
+    return render(request, 'meal_add.html',{'recipes': recipes, 'current_meals': current_meals})
 
 
 def get_ingredients(request):
@@ -139,14 +168,14 @@ def new_recipe(request):
     recipe_img_url = request.POST['img_url']
     recipe_user = request.user
 
-    # if request.POST['day_of_week'] != "To Be Determined":
-
-    #     match request.POST['day_of_week']:
-    #         case 'monday':
-
     new_recipe = Recipe(name=recipe_name, category=recipe_category,
                         day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
+
+    # if request.POST['day_of_week'] != "To Be Determined":
+
+    #     match request.POST['day_of_week']:
+    #         case 'monday': MealPlan.monday = new_recipe.id
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
     # chosen_ingredients = []
@@ -170,6 +199,8 @@ def signup(request):
             user = form.save()
             login(request, user)
             # link meal plan to user here
+            meal_plan = MealPlan(user=request.user)
+            meal_plan.save()
             return redirect('/recipes')
         else:
             error_message = 'Invalid sign up - try again'
