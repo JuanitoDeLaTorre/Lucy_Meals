@@ -13,13 +13,18 @@ from django.urls import reverse
 
 def home(request):
     recipe = Recipe.objects.filter()
-    meal_plan = MealPlan.objects.filter(user=request.user).first()
-    appetizers = Recipe.objects.filter(category='Appetizer')
-    entree = Recipe.objects.filter(category='Entree')
-    dessert = Recipe.objects.filter(category='Dessert')
-    beverage = Recipe.objects.filter(category='Beverage')
-    side = Recipe.objects.filter(category='Side')
-    baked_good = Recipe.objects.filter(category='Baked Good')
+    print(request.user)
+    if request.user.is_authenticated:
+        meal_plan = MealPlan.objects.filter(user=request.user).first()
+    else:
+        meal_plan = False
+    appetizers = len(list(Recipe.objects.filter(category='Appetizer')))
+    entree = len(list(Recipe.objects.filter(category='Entree')))
+    dessert = len(list(Recipe.objects.filter(category='Dessert')))
+    beverage = len(list(Recipe.objects.filter(category='Beverage')))
+    side = len(list(Recipe.objects.filter(category='Side')))
+    baked_good = len(list(Recipe.objects.filter(category='Baked Good')))
+    print(baked_good)
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
@@ -44,22 +49,27 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
+    print(request.POST)
     if request.method == 'POST':
         recipe_name = request.POST['name']
         recipe_category = request.POST['category']
         recipe_day_of_week = request.POST['day_of_week']
         recipe_img_url = request.POST['img_url']
+        recipe_instructions = request.POST['instructions']
 
         recipe.name = recipe_name
         recipe.category = recipe_category
         recipe.day_of_week = recipe_day_of_week
         recipe.img_url = recipe_img_url
-        recipe.ingredients.remove()
+        recipe.instructions = recipe_instructions
+        recipe.ingredients.clear()
 
         for key, val in request.POST.items():
             if val == 'on':
+                print('adding ' + val)
                 recipe.ingredients.add(
                     Ingredient.objects.filter(name=key)[0].id)
+        recipe.save()
 
         return redirect(reverse('detail', kwargs={"recipe_id": recipe_id}))
     return render(request, 'recipe_update.html', {'recipe': recipe})
@@ -111,6 +121,7 @@ def recipes(request, recipe_category):
 @login_required
 def recipes_user(request):
     all_recipes = Recipe.objects.filter(user=request.user)
+    print(all_recipes)
     return render(request, 'recipes_user.html', {'recipes': all_recipes})
 
 
@@ -196,10 +207,11 @@ def new_recipe(request):
     recipe_category = request.POST['category']
     recipe_day_of_week = request.POST['day_of_week']
     recipe_img_url = request.POST['img_url']
+    recipe_instructions = request.POST['instructions']
     recipe_user = request.user
 
     new_recipe = Recipe(name=recipe_name, category=recipe_category,
-                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
+                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, instructions=recipe_instructions, user=recipe_user)
     new_recipe.save()
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
@@ -232,15 +244,33 @@ def signup(request):
 
 def search_recipes(request):
     if request.method == "POST":
-        searched = request.POST['searched']
-        categories = ['Appetizer', 'Entree', 'Dessert', 'Beverage', 'Side', 'Baked Good']
-        if searched in categories:
+        searched = request.POST['searched'].lower()
+        categories = ['appetizer', 'entree', 'dessert', 'beverage', 'side', 'baked Good']
+        all_ingredients = []
+        query_recipes_ing = []
+
+        #fetch the names of all ingredients for matching
+        for ing in Ingredient.objects.all():
+            all_ingredients.append(ing.name)
+
+        if searched.capitalize() in all_ingredients:
+            #for all recipes in the database, loop through each one's ingredients to check for matches
+            #append to list if it matches
+            for recipe in Recipe.objects.all():
+                for ing in recipe.ingredients.all():
+                    if searched.capitalize() == ing.name:
+                        query_recipes_ing.append(recipe)
             
-            recipes = Recipe.objects.filter(category=searched)
+            return render (request, 'search_recipes.html',
+                        {'searched' : request.POST['searched'], 'recipes': query_recipes_ing})
+
+        if searched in categories:
+            recipes = list(Recipe.objects.filter(category=searched.capitalize()))
+            print(recipes)
         else:
-            recipes = Recipe.objects.filter(name__icontains=searched)
+            recipes = list(Recipe.objects.filter(name__icontains=searched))
         return render (request, 'search_recipes.html',
-                       {'searched' : searched, 'recipes': recipes})
+                       {'searched' : request.POST['searched'], 'recipes': recipes})
     else:
         return render (request, 'search_recipes.html',
                        {})
