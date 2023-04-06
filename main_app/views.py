@@ -233,15 +233,33 @@ def signup(request):
 
 def search_recipes(request):
     if request.method == "POST":
-        searched = request.POST['searched']
-        categories = ['Appetizer', 'Entree', 'Dessert', 'Beverage', 'Side', 'Baked Good']
-        if searched in categories:
+        searched = request.POST['searched'].lower()
+        categories = ['appetizer', 'entree', 'dessert', 'beverage', 'side', 'baked Good']
+        all_ingredients = []
+        query_recipes_ing = []
+
+        #fetch the names of all ingredients for matching
+        for ing in Ingredient.objects.all():
+            all_ingredients.append(ing.name)
+
+        if searched.capitalize() in all_ingredients:
+            #for all recipes in the database, loop through each one's ingredients to check for matches
+            #append to list if it matches
+            for recipe in Recipe.objects.all():
+                for ing in recipe.ingredients.all():
+                    if searched.capitalize() == ing.name:
+                        query_recipes_ing.append(recipe)
             
-            recipes = Recipe.objects.filter(category=searched)
+            return render (request, 'search_recipes.html',
+                        {'searched' : request.POST['searched'], 'recipes': query_recipes_ing})
+
+        if searched in categories:
+            recipes = list(Recipe.objects.filter(category=searched.capitalize()))
+            print(recipes)
         else:
-            recipes = Recipe.objects.filter(name__icontains=searched)
+            recipes = list(Recipe.objects.filter(name__icontains=searched))
         return render (request, 'search_recipes.html',
-                       {'searched' : searched, 'recipes': recipes})
+                       {'searched' : request.POST['searched'], 'recipes': recipes})
     else:
         return render (request, 'search_recipes.html',
                        {})

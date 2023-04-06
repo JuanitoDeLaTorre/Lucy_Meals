@@ -4,7 +4,7 @@
 
     {% if searched %}
 
-    {% if recipes.all|length == 0 %}
+    {% if recipes|length == 0 %}
         <h4 class="center">No Results for: {{searched}}</h4>
     {% else%}
         <h4 class="center">Search Results For: {{searched}}</h4>
