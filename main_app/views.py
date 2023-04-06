@@ -61,6 +61,7 @@ def recipe_update(request, recipe_id):
             if val == 'on':
                 recipe.ingredients.add(
                     Ingredient.objects.filter(name=key)[0].id)
+        recipe.save()
 
         return redirect(reverse('detail', kwargs={"recipe_id": recipe_id}))
     return render(request, 'recipe_update.html', {'recipe': recipe})
