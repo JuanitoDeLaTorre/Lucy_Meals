@@ -80,3 +80,8 @@ main {
     width: 15%;
     bottom: 6px;
 }
+
+tr td {
+    max-width: 300px;
+    white-space:normal;
+  }

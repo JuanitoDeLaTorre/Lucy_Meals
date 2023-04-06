@@ -2,10 +2,40 @@
 
 {% block content %}
 
-<section class="center title">
-<h1 class=" ">{{recipe.name}}</h1>
-<h4 class=" grey-text">{{recipe.category}}</h4>
-</section>
+<div class="row container valign-wrapper">
+    <section class="center title col s6">
+        <h2 class=" ">{{recipe.name}}</h2>
+        <h4 class="grey-text">{{recipe.category}}</h4>
+        {% if recipe.user == user %}
+            <a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn-small">delete recipe</a> 
+            <a href="{% url 'recipes_update' recipe.id %}" class="teal btn-small">update recipe</a>
+            <a href="{{search_string}}" class="indigo lighten-3 btn-small" target="_blank">search on google</a>
+        {% endif %}
+    </section>
+    <table class = "striped white col s4">
+        <thead  class = "teal lighten-5">
+            <tr>
+                <th>Store(s)</th>
+                <th>Total Price</th>
+                <th>Total Calories</th>
+            </tr>
+          </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <ul>
+                        {% for store in stores %}
+                            <li >• {{store}}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>${{price}}</td>
+                <td>{{calories}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 <section class="row container">
     <div class="col s6">
         <img src="{{recipe.img_url}}" alt="" class="responsive-img">
@@ -25,34 +55,8 @@
                 
             </li>
             
-            
             {% endfor %}
         </ul>
     </div>
 
-</section>
-<section class="row container">
-<div class="col s2 card center">
-    
-    <p>Store(s):</p>
-    <ul>
-    {% for store in stores %}
-        <li >{{store}}</li>
-    {% endfor %}
-</ul>
-</div>
-<div class="col s1"></div>
-<div class="col s2 card center">
-    <p class="">Price: ${{price}}</p>
-</div>
-
-<div class="col s6 push-s3 ">
-{% if recipe.user == user %}
-<a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn">delete recipe</a> 
-<a href="{% url 'recipes_update' recipe.id %}" class="teal btn">update recipe</a>
-{% endif %}
-</div>
-
-
-</section>
 {% endblock %}
