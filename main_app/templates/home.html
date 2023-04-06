@@ -10,7 +10,7 @@
                     <div class="card-content">
                         <div class="card-title">Appetizers</div>
                     <div class="card-body"># of recipes: {{appetizers|length}}</div>
-                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    <div class="card-action"><a href="{% url 'recipes' 'appetizer' %}" class="teal btn">View Recipes</a></div>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                     <div class="card-content center-align">
                         <div class="card-title">Entrees</div>
                     <div class="card-body"># of recipes: {{entrees|length}}</div>
-                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    <div class="card-action"><a href="{% url 'recipes' 'entree' %}" class="teal btn">View Recipes</a></div>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <div class="card-content center-align">
                         <div class="card-title">Desserts</div>
                     <div class="card-body"># of recipes: {{desserts|length}}</div>
-                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    <div class="card-action"><a href="{% url 'recipes' 'dessert' %}" class="teal btn">View Recipes</a></div>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     <div class="card-content center-align">
                         <div class="card-title">Beverages</div>
                     <div class="card-body"># of recipes: {{beverages|length}}</div>
-                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    <div class="card-action"><a href="{% url 'recipes' 'beverage' %}" class="teal btn">View Recipes</a></div>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <div class="card-content center-align">
                         <div class="card-title">Sides</div>
                     <div class="card-body"># of recipes: {{sides|length}}</div>
-                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    <div class="card-action"><a href="{% url 'recipes' 'side' %}" class="teal btn">View Recipes</a></div>
                     </div>
                 </div>
             </div>
@@ -55,65 +55,93 @@
                     <div class="card-content center-align">
                         <div class="card-title">Baked Goods</div>
                     <div class="card-body"># of recipes: {{baked_goods|length}}</div>
-                    <div class="card-action"><a href="" class="teal btn">View Recipes</a></div>
+                    <div class="card-action"><a href="{% url 'recipes' 'baked good'%}" class="teal btn">View Recipes</a></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <section class="col s12 m3 right-align responsive-table">
+    <section class="col s12 m7 right-align responsive-table">
         <div class="container right meal-plan-container">
             <h5 class="meal-plan-heading">Meal Plan</h5>
     
             <table class="striped right-align white">
-                <tbody>
+                <tbody  >
                     <a href="{% url 'home' %}">
-                        <tr class = "hoverable red lighten-5">
+                        <tr class="hoverable deep-orange lighten-5">
                             <td>Monday</td>
-                            <td>Carrots</td>
-                          </tr>
+                            {%if meal_plan.monday %}
+                            <td><a href="{%url 'detail' meal_plan.monday.id%}">{{meal_plan.monday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
+                        </tr>
                     </a>
         
                     <a href="{% url 'home' %}">
                         <tr class = "hoverable">
                             <td>Tuesday</td>
-                            <td>Nachos</td>
+                            {%if meal_plan.tuesday %}
+                            <td><a href="{%url 'detail' meal_plan.tuesday.id%}">{{meal_plan.tuesday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
                           </tr>
                     </a>
         
                     <a href="{% url 'home' %}">
-                        <tr class = "hoverable red lighten-5">
+                        <tr class = "hoverable deep-orange lighten-5">
                             <td>Wednesday</td>
-                            <td>Fried Green Tomatoes</td>
+                            {%if meal_plan.wednesday %}
+                            <td><a href="{%url 'detail' meal_plan.wednesday.id%}">{{meal_plan.wednesday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
                           </tr>
                     </a>
         
                     <a href="{% url 'home' %}">
                         <tr class = "hoverable">
                             <td>Thursday</td>
-                            <td>Ahmad's Famous Pot Roast</td>
+                            {%if meal_plan.thursday %}
+                            <td><a href="{%url 'detail' meal_plan.thursday.id%}">{{meal_plan.thursday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
                           </tr>
                     </a>
         
                     <a href="{% url 'home' %}">
-                        <tr class = "hoverable red lighten-5">
+                        <tr class = "hoverable deep-orange lighten-5">
                             <td>Friday</td>
-                            <td>Leo's Hot Wings</td>
+                            {%if meal_plan.friday %}
+                            <td><a href="{%url 'detail' meal_plan.friday.id%}">{{meal_plan.friday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
                           </tr>
                     </a>
         
                     <a href="{% url 'home' %}">
                         <tr class = "hoverable">
                             <td>Saturday</td>
-                            <td>Wylie's Famous Boiled Eggs</td>
+                            {%if meal_plan.saturday %}
+                            <td><a href="{%url 'detail' meal_plan.saturday.id%}">{{meal_plan.saturday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
                           </tr>
                     </a>
         
                     <a href="{% url 'home' %}">
-                        <tr class = "hoverable red lighten-5">
+                        <tr class = "hoverable deep-orange lighten-5">
                             <td>Sunday</td>
-                            <td>John's AirFryer Mashed Potatoes</td>
+                            {%if meal_plan.sunday %}
+                            <td><a href="{%url 'detail' meal_plan.sunday.id%}">{{meal_plan.sunday|capfirst}}</td>
+                            {%else%}
+                            <td>None</td>
+                            {%endif%}
                           </tr>
                     </a>
                 </tbody>
