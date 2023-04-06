@@ -92,7 +92,7 @@
                     type: "GET",
                     url: "{% url 'get_ingredients' %}",
                     success: (response)=> {
-                        console.log(response)
+                        console.log("Hitting intial response", response)
                         $('#display-data').empty()
                         for (let key in response.ingredients)
                         {
@@ -128,7 +128,7 @@
             setTimeout(()=>{
                 $.ajax({
                     type: "GET",
-                    url: "{% url 'get_ingredients' %}",
+                    url: "{% url 'home' %}",
                     success: (response)=> {
                         console.log(response)
                         $('#display-data').empty()

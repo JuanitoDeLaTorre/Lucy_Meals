@@ -76,15 +76,25 @@ def recipes_detail(request, recipe_id):
     total_calories = 0
     total_price = 0
     stores = []
+    search_string = "https://www.google.com/search?q="
 
     for ing in recipe.ingredients.all():
         total_calories += ing.calories
         total_price += ing.price
         if ing.store not in stores:
             stores.append(ing.store)
+    
+    #append words to google search with + in between
+    for word in recipe.name.split(' '):
+        search_string += word
+        search_string += '+'
+    
+    #remove last + from search_string
+    search_string = search_string.rstrip(search_string[-1])
+    
 
     return render(request, 'detail.html', {
-        'recipe': recipe, 'calories': total_calories, 'price': total_price, 'stores': stores
+        'recipe': recipe, 'calories': total_calories, 'price': total_price, 'stores': stores, 'search_string':search_string
     })
 
 
@@ -152,8 +162,13 @@ def meal_add(request):
 
 
 def get_ingredients(request):
-    ingredients = Ingredient.objects.filter()
+    ingredients = Ingredient.objects.all()
+    print("HELLOOOO")
     return JsonResponse({'ingredients': list(ingredients.values())})
+
+def get_ingredients2(request):
+    print("???")
+    return JsonResponse({'blah':'blah'})
 
 
 def recipe_add(request):
