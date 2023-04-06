@@ -36,9 +36,14 @@
                             <option value="Sunday">Sunday</option>
                             <option value="TBD">To Be Determined</option>
                         </select>
-    
+                        <br>
+                        
+                        <label for="textarea1">Instructions</label>
+                        <textarea id="textarea1" name = "instructions" class="materialize-textarea"></textarea>
+
+                        <br>
+
                         <label for="img_url">Image URL:</label>
-                        <p class = "grey-text text-lighten-1">Image URL:</p>
                         <input type="text" name="img_url" id="id_img_url">
     
                     <h4>Available Ingredients</h4>
@@ -86,6 +91,9 @@
         const cat = document.getElementById('id_category')
         M.FormSelect.init(cat)
 
+        // const text_area = document.getElementById('id_instructions')
+        // M.FormSelect.init(text_area)
+
         $(document).ready(()=> {
 
                 $.ajax({
@@ -122,13 +130,11 @@
                     calories: $('#calories').val(),
                     store: $('#store').val(),
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                }
-            })
-
-            setTimeout(()=>{
-                $.ajax({
+                },
+                success: ()=> {
+                    $.ajax({
                     type: "GET",
-                    url: "{% url 'home' %}",
+                    url: "{% url 'get_ingredients' %}",
                     success: (response)=> {
                         console.log(response)
                         $('#display-data').empty()
@@ -145,7 +151,30 @@
                         alert("An error has occurred!")
                     }
                 })
-            },1000)
+                }
+            })
+
+            // setTimeout(()=>{
+            //     $.ajax({
+            //         type: "GET",
+            //         url: "{% url 'get_ingredients' %}",
+            //         success: (response)=> {
+            //             console.log(response)
+            //             $('#display-data').empty()
+            //             for (let key in response.ingredients)
+            //             {
+            //                 // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+            //                 let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                            
+            //                 console.log(temp)
+            //                 $('#display-data').append(temp)
+            //             }
+            //         },
+            //         error: (response) => {
+            //             alert("An error has occurred!")
+            //         }
+            //     })
+            // },1000)
             
 
             $('#new_ing_form')[0].reset()

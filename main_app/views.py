@@ -196,10 +196,11 @@ def new_recipe(request):
     recipe_category = request.POST['category']
     recipe_day_of_week = request.POST['day_of_week']
     recipe_img_url = request.POST['img_url']
+    recipe_instructions = request.POST['instructions']
     recipe_user = request.user
 
     new_recipe = Recipe(name=recipe_name, category=recipe_category,
-                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
+                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, instructions=recipe_instructions, user=recipe_user)
     new_recipe.save()
 
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]

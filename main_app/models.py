@@ -41,8 +41,9 @@ class Recipe(models.Model):
     name = models.CharField(max_length=100, default="GABAGOOL")
     category = models.CharField(max_length=100, choices = CATEGORY, default="App")
     day_of_week = models.CharField(max_length=255, choices=DAYS, default ="To Be Determined")
-    img_url = models.URLField(max_length=300, default="")
+    img_url = models.URLField(max_length=300, default="https://i.pinimg.com/originals/f4/3d/55/f43d55d69d9e8f11ce20a79277cdfafc.jpg")
     ingredients = models.ManyToManyField(Ingredient)
+    instructions = models.TextField(default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
