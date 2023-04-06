@@ -62,6 +62,7 @@
         </div>
     </div>
     
+    {% if user.is_authenticated %}
     <section class="col s12 m7 right-align responsive-table">
         <div class="container right meal-plan-container">
             <h5 class="meal-plan-heading">Meal Plan</h5>
@@ -148,6 +149,7 @@
             </table>
 
     </section>
+    {% endif %}
 
     <style>
         .meal-plan-container {

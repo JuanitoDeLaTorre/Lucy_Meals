@@ -5,6 +5,7 @@
     <div class="row">
         <div class="col s7 white" style="margin-top:30px;">   
             <h4>Edit<span class="orange-text"> {{recipe.name}} </span></h4>
+
             <div class="divider"></div>
             <div class="form-parent">
                 <form action="{% url 'recipes_update' recipe.id %}" method="POST">
@@ -37,8 +38,12 @@
                         <option value="TBD">To Be Determined</option>
                     </select>
 
+                    <br>
+                        
+                    <label for="textarea1">Instructions</label>
+                    <textarea id="textarea1" name = "instructions" class="materialize-textarea" placeholder = "{{recipe.instructions}}">{{recipe.instructions}}</textarea>
+
                     <label for="img_url">Image URL:</label>
-                    <p class="grey-text text-lighten-1">Image URL:</p>
                     <input type="text" name="img_url" id="id_img_url" value="{{recipe.img_url}}">
 
                     <h4>Available Ingredients</h4>
@@ -76,6 +81,7 @@
 
     </div>
 </div>
+
 
 <script>
 
