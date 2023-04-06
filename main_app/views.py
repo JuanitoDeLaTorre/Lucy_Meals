@@ -13,7 +13,11 @@ from django.urls import reverse
 
 def home(request):
     recipe = Recipe.objects.filter()
-    meal_plan = MealPlan.objects.filter(user=request.user).first()
+    print(request.user)
+    if request.user.is_authenticated:
+        meal_plan = MealPlan.objects.filter(user=request.user).first()
+    else:
+        meal_plan = False
     appetizers = len(list(Recipe.objects.filter(category='Appetizer')))
     entree = len(list(Recipe.objects.filter(category='Entree')))
     dessert = len(list(Recipe.objects.filter(category='Dessert')))
@@ -45,20 +49,24 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
+    print(request.POST)
     if request.method == 'POST':
         recipe_name = request.POST['name']
         recipe_category = request.POST['category']
         recipe_day_of_week = request.POST['day_of_week']
         recipe_img_url = request.POST['img_url']
+        recipe_instructions = request.POST['instructions']
 
         recipe.name = recipe_name
         recipe.category = recipe_category
         recipe.day_of_week = recipe_day_of_week
         recipe.img_url = recipe_img_url
-        recipe.ingredients.remove()
+        recipe.instructions = recipe_instructions
+        recipe.ingredients.clear()
 
         for key, val in request.POST.items():
             if val == 'on':
+                print('adding ' + val)
                 recipe.ingredients.add(
                     Ingredient.objects.filter(name=key)[0].id)
         recipe.save()
@@ -113,6 +121,7 @@ def recipes(request, recipe_category):
 @login_required
 def recipes_user(request):
     all_recipes = Recipe.objects.filter(user=request.user)
+    print(all_recipes)
     return render(request, 'recipes_user.html', {'recipes': all_recipes})
 
 
