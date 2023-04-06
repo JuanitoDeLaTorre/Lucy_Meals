@@ -13,7 +13,7 @@ from django.urls import reverse
 
 def home(request):
     recipe = Recipe.objects.filter()
-
+    meal_plan = MealPlan.objects.filter(user=request.user).first()
     appetizers = Recipe.objects.filter(category='Appetizer')
     entree = Recipe.objects.filter(category='Entree')
     dessert = Recipe.objects.filter(category='Dessert')
@@ -23,7 +23,7 @@ def home(request):
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
-                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good}
+                      'entree': entree, 'beverage': beverage, 'side': side, 'bake_good': baked_good, 'meal_plan':meal_plan}
                   )
 
 
@@ -76,25 +76,36 @@ def recipes_detail(request, recipe_id):
     total_calories = 0
     total_price = 0
     stores = []
+    search_string = "https://www.google.com/search?q="
 
     for ing in recipe.ingredients.all():
         total_calories += ing.calories
         total_price += ing.price
         if ing.store not in stores:
             stores.append(ing.store)
-
-    print(total_calories)
-    print(total_price)
-    print(stores)
+    
+    #append words to google search with + in between
+    for word in recipe.name.split(' '):
+        search_string += word
+        search_string += '+'
+    
+    #remove last + from search_string
+    search_string = search_string.rstrip(search_string[-1])
+    
 
     return render(request, 'detail.html', {
-        'recipe': recipe, 'calories': total_calories, 'price': total_price, 'stores': stores
+        'recipe': recipe, 'calories': total_calories, 'price': total_price, 'stores': stores, 'search_string':search_string
     })
 
 
-def recipes(request):
-    all_recipes = Recipe.objects.filter()
-    return render(request, 'recipes.html', {'recipes': all_recipes})
+def recipes(request, recipe_category):
+
+    if recipe_category != "all":
+        recipes = Recipe.objects.filter(category=recipe_category.capitalize())
+    else:
+        recipes = Recipe.objects.filter()
+
+    return render(request, 'recipes.html', {'recipes': recipes})
 
 
 @login_required
@@ -105,17 +116,59 @@ def recipes_user(request):
 
 @login_required
 def meal_plan(request):
-    meal_plan = MealPlan()
-    return render(request, 'meal_plan.html')
+    meal_plan = MealPlan.objects.filter(user=request.user).first()
+
+    days = {'monday':meal_plan.monday, 'tuesday': meal_plan.tuesday, 'wednesday': meal_plan.wednesday, 
+            'thursday': meal_plan.thursday, 'friday': meal_plan.friday, 'saturday': meal_plan.saturday, 'sunday': meal_plan.sunday}
+    calories = {}
+    calories_temp = 0
+
+    #loop through all days in meal_plan (days dict) and add up calories for each day/assign to dict
+    for name, day in days.items():
+        calories_temp = 0
+        if day:
+            for item in day.ingredients.all():
+                calories_temp += item.calories
+            calories[name] = calories_temp
+
+    return render(request, 'meal_plan.html', {'meal_plan':meal_plan, 'calories': calories})
 
 
 def meal_add(request):
-    return render(request, 'meal_add.html')
+    recipes =  Recipe.objects.filter()
+    current_meals = MealPlan.objects.filter(user=request.user)[0]
+    recipe_day_of_week = request.POST.get('day_of_week')
+    new_recipe = Recipe.objects.filter(name=request.POST.get('recipes')).first()
+
+    if request.method == 'POST':
+        if recipe_day_of_week == 'Monday':
+            current_meals.monday = new_recipe
+        elif recipe_day_of_week == 'Tuesday':
+            current_meals.tuesday = new_recipe
+        elif recipe_day_of_week == 'Wednesday':
+            current_meals.wednesday = new_recipe
+        elif recipe_day_of_week == 'Thursday':
+            current_meals.thursday = new_recipe
+        elif recipe_day_of_week == 'Friday':
+            current_meals.friday = new_recipe
+        elif recipe_day_of_week == 'Saturday':
+            current_meals.saturday = new_recipe
+        elif recipe_day_of_week == 'Sunday':
+            current_meals.sunday = new_recipe
+        current_meals.save()
+        return redirect(reverse('meal_plan'))
+        
+    return render(request, 'meal_add.html',{'recipes': recipes, 'current_meals': current_meals})
 
 
 def get_ingredients(request):
-    ingredients = Ingredient.objects.filter()
+    ingredients = Ingredient.objects.all()
+    print("HELLOOOO")
     return JsonResponse({'ingredients': list(ingredients.values())})
+
+def get_ingredients2(request):
+    print("???")
+    return JsonResponse({'blah':'blah'})
 
 
 def recipe_add(request):
@@ -143,27 +196,20 @@ def new_recipe(request):
     recipe_category = request.POST['category']
     recipe_day_of_week = request.POST['day_of_week']
     recipe_img_url = request.POST['img_url']
+    recipe_instructions = request.POST['instructions']
     recipe_user = request.user
 
     new_recipe = Recipe(name=recipe_name, category=recipe_category,
-                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
+                        day_of_week=recipe_day_of_week, img_url=recipe_img_url, instructions=recipe_instructions, user=recipe_user)
     new_recipe.save()
 
-    # if request.POST['day_of_week'] != "To Be Determined":
-
-    #     match request.POST['day_of_week']:
-    #         case 'monday': MealPlan.monday = new_recipe.id
-
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
-    # chosen_ingredients = []
 
-    # fetch just ingredients, append to list
+    # fetch ingredients from POST, associate with recipe from request
     for key, val in request.POST.items():
         if val == 'on':
             recipe_obj.ingredients.add(
                 Ingredient.objects.filter(name=key)[0].id)
-
-    # print(chosen_ingredients)
 
     return redirect('create_recipe')
 
@@ -184,3 +230,19 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+def search_recipes(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        categories = ['Appetizer', 'Entree', 'Dessert', 'Beverage', 'Side', 'Baked Good']
+        if searched in categories:
+            
+            recipes = Recipe.objects.filter(category=searched)
+        else:
+            recipes = Recipe.objects.filter(name__icontains=searched)
+        return render (request, 'search_recipes.html',
+                       {'searched' : searched, 'recipes': recipes})
+    else:
+        return render (request, 'search_recipes.html',
+                       {})
+    
