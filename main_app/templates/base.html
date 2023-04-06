@@ -33,7 +33,7 @@
                     {% csrf_token %}
                     
                     <div>
-                        <input type="search" id="search" class="input-field" placeholder="Search Recipes and Categories" name="searched">
+                        <input type="search" id="search" class="input-field" placeholder="Search recipes and categories..." name="searched" style = "width: 95%;">
                         <label for="search" class="label-icon"></label>
                         <i class="material-icons">close</i>
                     </div>
@@ -41,7 +41,7 @@
             
             
             <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 50px;">
-                <li><a href="{% url 'recipes'%}">Recipes</a></li>
+                <li><a href="{% url 'recipes' 'all'%}">Recipes</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'create_recipe'%}">Create Your Own</a></li>
                 <li><a href="{% url 'meal_plan' %}">Meal Plan</a></li>
