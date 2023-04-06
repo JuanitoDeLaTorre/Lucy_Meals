@@ -14,12 +14,12 @@ from django.urls import reverse
 def home(request):
     recipe = Recipe.objects.filter()
     meal_plan = MealPlan.objects.filter(user=request.user).first()
-    appetizers = Recipe.objects.filter(category='Appetizer')
-    entree = Recipe.objects.filter(category='Entree')
-    dessert = Recipe.objects.filter(category='Dessert')
-    beverage = Recipe.objects.filter(category='Beverage')
-    side = Recipe.objects.filter(category='Side')
-    baked_good = Recipe.objects.filter(category='Baked Good')
+    appetizers = len(list(Recipe.objects.filter(category='Appetizer')))
+    entree = len(list(Recipe.objects.filter(category='Entree')))
+    dessert = len(list(Recipe.objects.filter(category='Dessert')))
+    beverage = len(list(Recipe.objects.filter(category='Beverage')))
+    side = len(list(Recipe.objects.filter(category='Side')))
+    baked_good = len(list(Recipe.objects.filter(category='Baked Good')))
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
