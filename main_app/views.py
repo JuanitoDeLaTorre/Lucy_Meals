@@ -162,8 +162,13 @@ def meal_add(request):
 
 
 def get_ingredients(request):
-    ingredients = Ingredient.objects.filter()
+    ingredients = Ingredient.objects.all()
+    print("HELLOOOO")
     return JsonResponse({'ingredients': list(ingredients.values())})
+
+def get_ingredients2(request):
+    print("???")
+    return JsonResponse({'blah':'blah'})
 
 
 def recipe_add(request):
