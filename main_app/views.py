@@ -83,18 +83,19 @@ def recipes_detail(request, recipe_id):
         if ing.store not in stores:
             stores.append(ing.store)
 
-    print(total_calories)
-    print(total_price)
-    print(stores)
-
     return render(request, 'detail.html', {
         'recipe': recipe, 'calories': total_calories, 'price': total_price, 'stores': stores
     })
 
 
-def recipes(request):
-    all_recipes = Recipe.objects.filter()
-    return render(request, 'recipes.html', {'recipes': all_recipes})
+def recipes(request, recipe_category):
+
+    if recipe_category != "all":
+        recipes = Recipe.objects.filter(category=recipe_category.capitalize())
+    else:
+        recipes = Recipe.objects.filter()
+
+    return render(request, 'recipes.html', {'recipes': recipes})
 
 
 @login_required
@@ -106,7 +107,21 @@ def recipes_user(request):
 @login_required
 def meal_plan(request):
     meal_plan = MealPlan.objects.filter(user=request.user).first()
-    return render(request, 'meal_plan.html', {'meal_plan':meal_plan})
+
+    days = {'monday':meal_plan.monday, 'tuesday': meal_plan.tuesday, 'wednesday': meal_plan.wednesday, 
+            'thursday': meal_plan.thursday, 'friday': meal_plan.friday, 'saturday': meal_plan.saturday, 'sunday': meal_plan.sunday}
+    calories = {}
+    calories_temp = 0
+
+    #loop through all days in meal_plan (days dict) and add up calories for each day/assign to dict
+    for name, day in days.items():
+        calories_temp = 0
+        if day:
+            for item in day.ingredients.all():
+                calories_temp += item.calories
+            calories[name] = calories_temp
+
+    return render(request, 'meal_plan.html', {'meal_plan':meal_plan, 'calories': calories})
 
 
 def meal_add(request):
@@ -114,7 +129,7 @@ def meal_add(request):
     current_meals = MealPlan.objects.filter(user=request.user)[0]
     recipe_day_of_week = request.POST.get('day_of_week')
     new_recipe = Recipe.objects.filter(name=request.POST.get('recipes')).first()
-    print(new_recipe)
+
     if request.method == 'POST':
         if recipe_day_of_week == 'Monday':
             current_meals.monday = new_recipe
@@ -172,21 +187,13 @@ def new_recipe(request):
                         day_of_week=recipe_day_of_week, img_url=recipe_img_url, user=recipe_user)
     new_recipe.save()
 
-    # if request.POST['day_of_week'] != "To Be Determined":
-
-    #     match request.POST['day_of_week']:
-    #         case 'monday': MealPlan.monday = new_recipe.id
-
     recipe_obj = Recipe.objects.filter(name=recipe_name)[0]
-    # chosen_ingredients = []
 
-    # fetch just ingredients, append to list
+    # fetch ingredients from POST, associate with recipe from request
     for key, val in request.POST.items():
         if val == 'on':
             recipe_obj.ingredients.add(
                 Ingredient.objects.filter(name=key)[0].id)
-
-    # print(chosen_ingredients)
 
     return redirect('create_recipe')
 
@@ -213,7 +220,7 @@ def search_recipes(request):
         searched = request.POST['searched']
         categories = ['Appetizer', 'Entree', 'Dessert', 'Beverage', 'Side', 'Baked Good']
         if searched in categories:
-            print(searched)
+            
             recipes = Recipe.objects.filter(category=searched)
         else:
             recipes = Recipe.objects.filter(name__icontains=searched)

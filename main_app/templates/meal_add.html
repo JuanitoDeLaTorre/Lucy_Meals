@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="center">Add Meal</h1>
+<h2 class="center">Add Meal</h2>
 <br><br>
 <form action="{%url 'meal_add' %}" method="POST">
     {% csrf_token %}

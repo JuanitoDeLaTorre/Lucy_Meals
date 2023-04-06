@@ -9,7 +9,7 @@
 <br>
 
 <div class="container">
-    <a href="{% url 'meal_add' %}"><h4 class=" black-text center">Add Recipe <i class="material-icons">add_circle</i></h4></a>
+    <a href="{% url 'meal_add' %}"><h4 class=" black-text center" >Add Recipe <div class="btn-floating btn-small waves-effect waves-light teal lighten-2"><i class="material-icons">add</i></div></h4></a>
     <table class = "striped white">
         <thead>
           <tr>
@@ -22,15 +22,18 @@
     
         <tbody>
             <a href="{% url 'home' %}">
-                <tr class = "hoverable red lighten-5">
+                <tr class = "hoverable deep-orange lighten-5">
                     <td>Monday</td>
                     {%if meal_plan.monday %}
                     <td><a href="{%url 'detail' meal_plan.monday.id%}">{{meal_plan.monday|capfirst}}</td>
+                    <td>{{meal_plan.monday.ingredients.all|length}}</td>
+                    <td>{{calories.monday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.monday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
 
@@ -39,24 +42,30 @@
                     <td>Tuesday</td>
                     {%if meal_plan.tuesday %}
                     <td><a href="{%url 'detail' meal_plan.tuesday.id%}">{{meal_plan.tuesday|capfirst}}</td>
+                    <td>{{meal_plan.tuesday.ingredients.all|length}}</td>
+                    <td>{{calories.tuesday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.tuesday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
 
             <a href="{% url 'home' %}">
-                <tr class = "hoverable red lighten-5">
+                <tr class = "hoverable deep-orange lighten-5">
                     <td>Wednesday</td>
                     {%if meal_plan.wednesday %}
                     <td><a href="{%url 'detail' meal_plan.wednesday.id%}">{{meal_plan.wednesday|capfirst}}</td>
+                    <td>{{meal_plan.wednesday.ingredients.all|length}}</td>
+                    <td>{{calories.wednesday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.wednesday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
 
@@ -65,24 +74,30 @@
                     <td>Thursday</td>
                     {%if meal_plan.thursday %}
                     <td><a href="{%url 'detail' meal_plan.thursday.id%}">{{meal_plan.thursday|capfirst}}</td>
+                    <td>{{meal_plan.thursday.ingredients.all|length}}</td>
+                    <td>{{calories.thursday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.thursday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
 
             <a href="{% url 'home' %}">
-                <tr class = "hoverable red lighten-5">
+                <tr class = "hoverable deep-orange lighten-5">
                     <td>Friday</td>
                     {%if meal_plan.friday %}
                     <td><a href="{%url 'detail' meal_plan.friday.id%}">{{meal_plan.friday|capfirst}}</td>
+                    <td>{{meal_plan.friday.ingredients.all|length}}</td>
+                    <td>{{calories.friday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.friday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
 
@@ -91,24 +106,30 @@
                     <td>Saturday</td>
                     {%if meal_plan.saturday %}
                     <td><a href="{%url 'detail' meal_plan.saturday.id%}">{{meal_plan.saturday|capfirst}}</td>
+                    <td>{{meal_plan.saturday.ingredients.all|length}}</td>
+                    <td>{{calories.saturday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.saturday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
 
             <a href="{% url 'home' %}">
-                <tr class = "hoverable red lighten-5">
+                <tr class = "hoverable deep-orange lighten-5">
                     <td>Sunday</td>
                     {%if meal_plan.sunday %}
                     <td><a href="{%url 'detail' meal_plan.sunday.id%}">{{meal_plan.sunday|capfirst}}</td>
+                    <td>{{meal_plan.sunday.ingredients.all|length}}</td>
+                    <td>{{calories.sunday}}</td>
                     {%else%}
                     <td>None</td>
+                    <td>-</td>
+                    <td>-</td>
                     {%endif%}
-                    <td>{{meal_plan.sunday.ingredients.all|length}}</td>
-                    <td>2500</td>
+                    
                   </tr>
             </a>
         </tbody>
