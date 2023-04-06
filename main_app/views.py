@@ -20,6 +20,7 @@ def home(request):
     beverage = len(list(Recipe.objects.filter(category='Beverage')))
     side = len(list(Recipe.objects.filter(category='Side')))
     baked_good = len(list(Recipe.objects.filter(category='Baked Good')))
+    print(baked_good)
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
