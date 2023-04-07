@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Recipe, Ingredient, MealPlan
+from .models import Recipe, Ingredient, MealPlan, User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
 from .forms import RecipeForm
@@ -175,6 +175,7 @@ def meal_add(request):
 
 def get_ingredients(request):
     ingredients = Ingredient.objects.all()
+    
     if request.method == 'POST':
         recipe_ingredients = []
         for ing in list(Recipe.objects.get(id=request.POST.get('recipe_id','')).ingredients.all()):
@@ -240,7 +241,7 @@ def signup(request):
             # link meal plan to user here
             meal_plan = MealPlan(user=request.user)
             meal_plan.save()
-            return redirect('/recipes')
+            return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()

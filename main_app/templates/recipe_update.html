@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col s7 white" style="margin-top:30px;">   
-            <h4>Edit<span class="orange-text"> {{recipe.name}} </span></h4>
+            <h4>Update<span class="orange-text"> {{recipe.name}} </span></h4>
 
             <div class="divider"></div>
             <div class="form-parent">
@@ -41,7 +41,7 @@
                     <br>
                         
                     <label for="textarea1">Instructions</label>
-                    <textarea id="textarea1" name = "instructions" class="materialize-textarea" placeholder = "{{recipe.instructions}}">{{recipe.instructions}}</textarea>
+                    <textarea id="textarea1" name = "instructions" class="materialize-textarea" placeholder = '1) First Step &#10;'>{{recipe.instructions}}</textarea>
 
                     <label for="img_url">Image URL:</label>
                     <input type="text" name="img_url" id="id_img_url" value="{{recipe.img_url}}">
@@ -122,7 +122,7 @@
             success: (response) => {
                 console.log(response)
                 $('#display-data').empty()
-                for (let key in response.ingredients) {
+                for (let key in response.ingredients.reverse()) {
                     console.log(response.ingredients[key].name)
                     let temp = ''
                     if (response.recipe_ingredients.includes(response.ingredients[key].name)){
@@ -165,7 +165,7 @@
                 success: (response) => {
                     console.log(response)
                     $('#display-data').empty()
-                    for (let key in response.ingredients) {
+                    for (let key in response.ingredients.reverse()) {
                         console.log(response.ingredients[key].name)
                         let temp = ''
                         if (response.recipe_ingredients.includes(response.ingredients[key].name)){
