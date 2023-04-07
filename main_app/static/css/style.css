@@ -94,23 +94,58 @@ tr td {
     font-size: 32px;
     display: inline;
     vertical-align: middle;
-    margin-right: 30px;
 }
 
-.right-alignn {
+/* .right-alignn {
     display: inline-block;
     vertical-align: middle;
-}
+} */
 
-.right-alignn p {
+/* .right-alignn p {
     font-size: 14px;
     margin: 0;
     color: white;
     display: inline-block;
-    text-align: center;
-}
+    text-align: right;
+    vertical-align: middle;
+} */
 
+
+/* .footer-updates {
+    text-align: center;
+} */
+
+.center-alignn {
+    vertical-align: middle;
+    text-align: left;
+}
 
 .footer-updates {
-    text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
+
+.left-column {
+  padding-left: 20px;
+}
+
+.middle-column {
+  text-align: center;
+}
+
+.right-column {
+  text-align: right;
+  padding-right: 30px;
+  padding-bottom: 20px;
+}
+
+.right-column p {
+    align-items: right;
+    margin: 0px;
+    padding-bottom: -50px;
+    font-size: 14px;
+}
+
+/* .jp {
+    padding-bottom: 30px;
+} */
