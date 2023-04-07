@@ -228,6 +228,25 @@ def new_recipe(request):
         if val == 'on':
             recipe_obj.ingredients.add(
                 Ingredient.objects.filter(name=key)[0].id)
+            
+    #fetch current meal plan
+    current_meals = MealPlan.objects.filter(user=request.user)[0]
+
+    if recipe_day_of_week == 'Monday':
+        current_meals.monday = new_recipe
+    elif recipe_day_of_week == 'Tuesday':
+        current_meals.tuesday = new_recipe
+    elif recipe_day_of_week == 'Wednesday':
+        current_meals.wednesday = new_recipe
+    elif recipe_day_of_week == 'Thursday':
+        current_meals.thursday = new_recipe
+    elif recipe_day_of_week == 'Friday':
+        current_meals.friday = new_recipe
+    elif recipe_day_of_week == 'Saturday':
+        current_meals.saturday = new_recipe
+    elif recipe_day_of_week == 'Sunday':
+        current_meals.sunday = new_recipe
+    current_meals.save()
 
     return redirect('create_recipe')
 
