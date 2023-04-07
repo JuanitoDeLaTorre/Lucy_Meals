@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="center">Your Recipes</h1>
+{% if recipes|length == 0 %}
+    <h2 class="center white">Your Recipes</h2> 
+    <div class="divider"></div>   
+    <br>
+    <h4 class = "center">Hmm...looking pretty empty here.</h4>
+    <h5 class = "center grey-text">Add your own recipe from the menu bar!</h5>
+{% else %}
+<h2 class="center white">Your Recipes</h2> 
+<div class="divider"></div>   
 
 <div class="row container">
     {% for recipe in recipes %}
@@ -19,6 +27,7 @@
     {% endif %}
     {% endfor %}
 </div>
+{% endif %}
 
 
 {% endblock %}

@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
-from .models import Recipe, Ingredient, MealPlan
+from .models import Recipe, Ingredient, MealPlan, User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
-from .forms import RecipeForm
+from .forms import RecipeForm, CustomUserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+import json
+
 # Create your views here.
 
 
@@ -77,7 +79,7 @@ def recipe_update(request, recipe_id):
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
-    success_url = '/recipes'
+    success_url = '/recipes/all'
 
 
 def recipes_detail(request, recipe_id):
@@ -174,12 +176,17 @@ def meal_add(request):
 
 def get_ingredients(request):
     ingredients = Ingredient.objects.all()
-    print("HELLOOOO")
+    
+    if request.method == 'POST':
+        recipe_ingredients = []
+        for ing in list(Recipe.objects.get(id=request.POST.get('recipe_id','')).ingredients.all()):
+            recipe_ingredients.append(ing.name)
+        
+        return JsonResponse({'ingredients': list(ingredients.values()), 'recipe_ingredients': recipe_ingredients})
+
+    
     return JsonResponse({'ingredients': list(ingredients.values())})
 
-def get_ingredients2(request):
-    print("???")
-    return JsonResponse({'blah':'blah'})
 
 
 def recipe_add(request):
@@ -221,6 +228,25 @@ def new_recipe(request):
         if val == 'on':
             recipe_obj.ingredients.add(
                 Ingredient.objects.filter(name=key)[0].id)
+            
+    #fetch current meal plan
+    current_meals = MealPlan.objects.filter(user=request.user)[0]
+
+    if recipe_day_of_week == 'Monday':
+        current_meals.monday = new_recipe
+    elif recipe_day_of_week == 'Tuesday':
+        current_meals.tuesday = new_recipe
+    elif recipe_day_of_week == 'Wednesday':
+        current_meals.wednesday = new_recipe
+    elif recipe_day_of_week == 'Thursday':
+        current_meals.thursday = new_recipe
+    elif recipe_day_of_week == 'Friday':
+        current_meals.friday = new_recipe
+    elif recipe_day_of_week == 'Saturday':
+        current_meals.saturday = new_recipe
+    elif recipe_day_of_week == 'Sunday':
+        current_meals.sunday = new_recipe
+    current_meals.save()
 
     return redirect('create_recipe')
 
@@ -228,17 +254,17 @@ def new_recipe(request):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             # link meal plan to user here
             meal_plan = MealPlan(user=request.user)
             meal_plan.save()
-            return redirect('/recipes')
+            return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 

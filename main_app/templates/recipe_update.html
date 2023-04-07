@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col s7 white" style="margin-top:30px;">   
-            <h4>Edit<span class="orange-text"> {{recipe.name}} </span></h4>
+            <h4>Update<span class="orange-text"> {{recipe.name}} </span></h4>
 
             <div class="divider"></div>
             <div class="form-parent">
@@ -41,7 +41,7 @@
                     <br>
                         
                     <label for="textarea1">Instructions</label>
-                    <textarea id="textarea1" name = "instructions" class="materialize-textarea" placeholder = "{{recipe.instructions}}">{{recipe.instructions}}</textarea>
+                    <textarea id="textarea1" name = "instructions" class="materialize-textarea" placeholder = '1) First Step &#10;'>{{recipe.instructions}}</textarea>
 
                     <label for="img_url">Image URL:</label>
                     <input type="text" name="img_url" id="id_img_url" value="{{recipe.img_url}}">
@@ -82,7 +82,7 @@
     </div>
 </div>
 
-
+<p id = "recipe_id_hidden" style = "display: none;">{{recipe.id}}</p>
 <script>
 
     // Init Materialize dropdowns
@@ -92,19 +92,45 @@
     const cat = document.getElementById('id_category')
     M.FormSelect.init(cat)
 
+    const recipe_id = document.getElementById('recipe_id_hidden').innerHTML
+    console.log(recipe_id)
+
+    // using jQuery get csrftoken from your HTML
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            // if not safe, set csrftoken
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
     $(document).ready(() => {
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "{% url 'get_ingredients' %}",
+            dataType: 'json',
+            data: {'recipe_id':recipe_id},
             success: (response) => {
                 console.log(response)
                 $('#display-data').empty()
-                for (let key in response.ingredients) {
-                    // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-                    let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
-
-                    console.log(temp)
+                for (let key in response.ingredients.reverse()) {
+                    console.log(response.ingredients[key].name)
+                    let temp = ''
+                    if (response.recipe_ingredients.includes(response.ingredients[key].name)){
+                        temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '" checked/><span>' + response.ingredients[key].name + '</span></label><br>'
+                    } else {
+                        temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                    }
+                    // console.log(temp)
                     $('#display-data').append(temp)
                 }
             },
@@ -132,16 +158,23 @@
 
         setTimeout(() => {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "{% url 'get_ingredients' %}",
+                dataType: 'json',
+                data: {'recipe_id':recipe_id},
                 success: (response) => {
                     console.log(response)
                     $('#display-data').empty()
-                    for (let key in response.ingredients) {
-                        // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-                        let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                    for (let key in response.ingredients.reverse()) {
+                        console.log(response.ingredients[key].name)
+                        let temp = ''
+                        if (response.recipe_ingredients.includes(response.ingredients[key].name)){
+                            temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '" checked/><span>' + response.ingredients[key].name + '</span></label><br>'
+                        } else {
+                            temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                        }
 
-                        console.log(temp)
+                        // console.log(temp)
                         $('#display-data').append(temp)
                     }
                 },
