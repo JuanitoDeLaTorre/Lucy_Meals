@@ -79,7 +79,7 @@ def recipe_update(request, recipe_id):
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
-    success_url = '/recipes'
+    success_url = '/recipes/all'
 
 
 def recipes_detail(request, recipe_id):
