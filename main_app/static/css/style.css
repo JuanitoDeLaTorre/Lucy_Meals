@@ -140,14 +140,11 @@ tr td {
     display: flex;
     width: auto;
     height: 700px;
-    border: solid blue 2px;
 }
 
 .image-container {
     height: 100%;
     width: 50%;
-    border: solid blue 2px;
-
 }
 
 #recipe-image {
