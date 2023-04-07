@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+import json
 # Create your views here.
 
 
@@ -174,12 +175,16 @@ def meal_add(request):
 
 def get_ingredients(request):
     ingredients = Ingredient.objects.all()
-    print("HELLOOOO")
+    if request.method == 'POST':
+        recipe_ingredients = []
+        for ing in list(Recipe.objects.get(id=request.POST.get('recipe_id','')).ingredients.all()):
+            recipe_ingredients.append(ing.name)
+        
+        return JsonResponse({'ingredients': list(ingredients.values()), 'recipe_ingredients': recipe_ingredients})
+
+    
     return JsonResponse({'ingredients': list(ingredients.values())})
 
-def get_ingredients2(request):
-    print("???")
-    return JsonResponse({'blah':'blah'})
 
 
 def recipe_add(request):
