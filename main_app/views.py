@@ -241,7 +241,7 @@ def signup(request):
             # link meal plan to user here
             meal_plan = MealPlan(user=request.user)
             meal_plan.save()
-            return redirect('/recipes')
+            return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()

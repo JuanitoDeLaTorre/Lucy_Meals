@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if recipes|length == 0 %}
+    <h4>Hmm...looking pretty empty here.</h4>
+{% else %}
 <h1 class="center">Your Recipes</h1>
 
 <div class="row container">
@@ -19,6 +22,7 @@
     {% endif %}
     {% endfor %}
 </div>
+{% endif %}
 
 
 {% endblock %}
