@@ -82,7 +82,7 @@
     </div>
 </div>
 
-
+<p id = "recipe_id_hidden" style = "display: none;">{{recipe.id}}</p>
 <script>
 
     // Init Materialize dropdowns
@@ -92,19 +92,45 @@
     const cat = document.getElementById('id_category')
     M.FormSelect.init(cat)
 
+    const recipe_id = document.getElementById('recipe_id_hidden').innerHTML
+    console.log(recipe_id)
+
+    // using jQuery get csrftoken from your HTML
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            // if not safe, set csrftoken
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
     $(document).ready(() => {
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "{% url 'get_ingredients' %}",
+            dataType: 'json',
+            data: {'recipe_id':recipe_id},
             success: (response) => {
                 console.log(response)
                 $('#display-data').empty()
                 for (let key in response.ingredients) {
-                    // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-                    let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
-
-                    console.log(temp)
+                    console.log(response.ingredients[key].name)
+                    let temp = ''
+                    if (response.recipe_ingredients.includes(response.ingredients[key].name)){
+                        temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '" checked/><span>' + response.ingredients[key].name + '</span></label><br>'
+                    } else {
+                        temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                    }
+                    // console.log(temp)
                     $('#display-data').append(temp)
                 }
             },
@@ -132,16 +158,23 @@
 
         setTimeout(() => {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "{% url 'get_ingredients' %}",
+                dataType: 'json',
+                data: {'recipe_id':recipe_id},
                 success: (response) => {
                     console.log(response)
                     $('#display-data').empty()
                     for (let key in response.ingredients) {
-                        // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-                        let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                        console.log(response.ingredients[key].name)
+                        let temp = ''
+                        if (response.recipe_ingredients.includes(response.ingredients[key].name)){
+                            temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '" checked/><span>' + response.ingredients[key].name + '</span></label><br>'
+                        } else {
+                            temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
+                        }
 
-                        console.log(temp)
+                        // console.log(temp)
                         $('#display-data').append(temp)
                     }
                 },
