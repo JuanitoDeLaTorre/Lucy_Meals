@@ -8,18 +8,24 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+import json
 # Create your views here.
 
 
 def home(request):
     recipe = Recipe.objects.filter()
-    meal_plan = MealPlan.objects.filter(user=request.user).first()
-    appetizers = Recipe.objects.filter(category='Appetizer')
-    entree = Recipe.objects.filter(category='Entree')
-    dessert = Recipe.objects.filter(category='Dessert')
-    beverage = Recipe.objects.filter(category='Beverage')
-    side = Recipe.objects.filter(category='Side')
-    baked_good = Recipe.objects.filter(category='Baked Good')
+    print(request.user)
+    if request.user.is_authenticated:
+        meal_plan = MealPlan.objects.filter(user=request.user).first()
+    else:
+        meal_plan = False
+    appetizers = len(list(Recipe.objects.filter(category='Appetizer')))
+    entree = len(list(Recipe.objects.filter(category='Entree')))
+    dessert = len(list(Recipe.objects.filter(category='Dessert')))
+    beverage = len(list(Recipe.objects.filter(category='Beverage')))
+    side = len(list(Recipe.objects.filter(category='Side')))
+    baked_good = len(list(Recipe.objects.filter(category='Baked Good')))
+    print(baked_good)
 
     return render(request, 'home.html',
                   {'recipes': recipe, 'appetizers': appetizers, 'dessert': dessert,
@@ -44,22 +50,27 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
+    print(request.POST)
     if request.method == 'POST':
         recipe_name = request.POST['name']
         recipe_category = request.POST['category']
         recipe_day_of_week = request.POST['day_of_week']
         recipe_img_url = request.POST['img_url']
+        recipe_instructions = request.POST['instructions']
 
         recipe.name = recipe_name
         recipe.category = recipe_category
         recipe.day_of_week = recipe_day_of_week
         recipe.img_url = recipe_img_url
-        recipe.ingredients.remove()
+        recipe.instructions = recipe_instructions
+        recipe.ingredients.clear()
 
         for key, val in request.POST.items():
             if val == 'on':
+                print('adding ' + val)
                 recipe.ingredients.add(
                     Ingredient.objects.filter(name=key)[0].id)
+        recipe.save()
 
         return redirect(reverse('detail', kwargs={"recipe_id": recipe_id}))
     return render(request, 'recipe_update.html', {'recipe': recipe})
@@ -111,6 +122,7 @@ def recipes(request, recipe_category):
 @login_required
 def recipes_user(request):
     all_recipes = Recipe.objects.filter(user=request.user)
+    print(all_recipes)
     return render(request, 'recipes_user.html', {'recipes': all_recipes})
 
 
@@ -163,12 +175,16 @@ def meal_add(request):
 
 def get_ingredients(request):
     ingredients = Ingredient.objects.all()
-    print("HELLOOOO")
+    if request.method == 'POST':
+        recipe_ingredients = []
+        for ing in list(Recipe.objects.get(id=request.POST.get('recipe_id','')).ingredients.all()):
+            recipe_ingredients.append(ing.name)
+        
+        return JsonResponse({'ingredients': list(ingredients.values()), 'recipe_ingredients': recipe_ingredients})
+
+    
     return JsonResponse({'ingredients': list(ingredients.values())})
 
-def get_ingredients2(request):
-    print("???")
-    return JsonResponse({'blah':'blah'})
 
 
 def recipe_add(request):
