@@ -175,12 +175,7 @@ def meal_add(request):
 
 def get_ingredients(request):
     ingredients = Ingredient.objects.all()
-    all_recipes = Recipe.objects.filter(user=request.user)
-    user_ingredients = []
-    for recipe in list(all_recipes):
-        for ing in recipe.ingredients.all():
-            user_ingredients.append(ing.name)
-    print(user_ingredients)
+    
     if request.method == 'POST':
         recipe_ingredients = []
         for ing in list(Recipe.objects.get(id=request.POST.get('recipe_id','')).ingredients.all()):

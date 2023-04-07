@@ -102,9 +102,9 @@
                     success: (response)=> {
                         console.log("Hitting intial response", response)
                         $('#display-data').empty()
-                        for (let key in response.ingredients)
+                        for (let key in response.ingredients.reverse())
                         {
-                            // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+                            //create input checkbox from each incoming ingredient from the response
                             let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                             
                             console.log(temp)
@@ -138,9 +138,9 @@
                     success: (response)=> {
                         console.log(response)
                         $('#display-data').empty()
-                        for (let key in response.ingredients)
+                        for (let key in response.ingredients.reverse())
                         {
-                            // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
+                            //create input checkbox from each incoming ingredient from the response
                             let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                             
                             console.log(temp)
@@ -153,30 +153,7 @@
                 })
                 }
             })
-
-            // setTimeout(()=>{
-            //     $.ajax({
-            //         type: "GET",
-            //         url: "{% url 'get_ingredients' %}",
-            //         success: (response)=> {
-            //             console.log(response)
-            //             $('#display-data').empty()
-            //             for (let key in response.ingredients)
-            //             {
-            //                 // let temp = '<input type = "checkbox" value = "' + response.ingredients[key].name + '">'
-            //                 let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
-                            
-            //                 console.log(temp)
-            //                 $('#display-data').append(temp)
-            //             }
-            //         },
-            //         error: (response) => {
-            //             alert("An error has occurred!")
-            //         }
-            //     })
-            // },1000)
             
-
             $('#new_ing_form')[0].reset()
         })
     </script>
