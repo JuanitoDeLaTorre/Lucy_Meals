@@ -125,3 +125,42 @@ tr td {
     padding-bottom: -50px;
     font-size: 14px;
 }
+
+.recipe-header {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 90px;
+    /* border: solid red 3px; */
+    width: auto;
+    height: auto;
+}
+
+.recipe-body {
+    display: flex;
+    width: auto;
+    height: 700px;
+    border: solid blue 2px;
+}
+
+.image-container {
+    height: 100%;
+    width: 50%;
+    border: solid blue 2px;
+
+}
+
+#recipe-image {
+    margin-left: 10%;
+    margin-top: 10%;
+    height: 50%;
+    width: 70%;
+    object-fit: contain;
+}
+
+.recipe-info {
+    height: 100%;
+    width: 48%;
+    border: solid blue 2px;
+
+}
