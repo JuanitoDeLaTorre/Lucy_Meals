@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Recipe, Ingredient, MealPlan, User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
-from .forms import RecipeForm
+from .forms import RecipeForm, CustomUserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -234,7 +234,7 @@ def new_recipe(request):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -244,7 +244,7 @@ def signup(request):
             return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
