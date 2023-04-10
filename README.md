@@ -1,7 +1,7 @@
 # Shopping_List_Organizer
 GA Project 3 - Django and PostgreSQL
 
-##Project Introduction:
+## Project Introduction:
 Are you tired of the traditional clunky cookbooks shoved in a cupboard somewhere? Isn't it frustrating flipping through hundreds of pages looking for a specific recipe? We have an all-in-one solution for you: Lucy Meals. This application allows you to quickly and effectively create delicious recipes for your favourite meals on-demand, 24/7. Our site also includes the ability to make a dynamic meal-plan from community recipes to help you organize your eating habits.
 
 Features include:
@@ -11,7 +11,7 @@ Features include:
 - View community recipes made by other users to gain inspiration in the kitchen!
 - Forgot your password? No Problem! Introducing the LeoSolution(TM), with patented password recovery technology.
 
-##User Stories:
+## User Stories:
 
 * AAU, I want to be able to create a new account and have my password protected with encryption
 - AAU, I want to be able to sign into my account using my login details
@@ -22,7 +22,7 @@ Features include:
 * AAU, I want to view the total calories/price for each recipe in the recipe details page
 - AAU, I want to view all the stores I will need to shop at for each recipe
 
-##Technologies Used:
+## Technologies Used:
 
 - HTML
 - CSS
@@ -35,11 +35,11 @@ Features include:
 
 
 
-##ERD:
+## ERD:
 
 ![image](https://user-images.githubusercontent.com/70331884/230804053-4ad6fc47-71a5-49bb-b601-35e744a89bbd.png)
 
-##Wireframe:
+## Wireframe:
 
 ![image](https://user-images.githubusercontent.com/70331884/230804063-08449b9c-23ee-40b9-a2ae-b528c00c6088.png)
 
@@ -53,7 +53,7 @@ Features include:
 
 ScreenShots
 
-Home
+## Home
 ![Screenshot 2023-04-07 at 4 53 12 PM](https://user-images.githubusercontent.com/85965277/230902734-b790ec34-494d-4607-9e58-61251fd8e92c.png)
 
 Recipies
@@ -68,7 +68,7 @@ Create Recipe
 Meal Plan
 ![Screenshot 2023-04-07 at 4 55 01 PM](https://user-images.githubusercontent.com/85965277/230902809-e0b63160-472b-4d05-a3be-e5ea4fd76c7a.png)
 
-Created By:
+### Created By:
 
 [Leonardo Rodriguez](https://github.com/leovre)
 
