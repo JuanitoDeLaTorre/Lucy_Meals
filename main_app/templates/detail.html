@@ -6,7 +6,7 @@
             <h2 style = "margin: 5px auto 0px auto">{{recipe.name}}</h2>
             <h4 class="grey-text">{{recipe.category}}</h4>
             <div style = "display: flex; flex-direction: row; gap: 20px">
-                {% if user.is_authenticated %}
+                {% if user == recipe.user %}
                     <a href="{% url 'recipes_delete' recipe.id %}" class="red lighten-2 btn-small">delete recipe</a>
                     <a href="{% url 'recipes_update' recipe.id %}" class="teal btn-small">update recipe</a>
                 {% endif %}
