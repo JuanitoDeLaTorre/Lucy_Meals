@@ -4,28 +4,28 @@
 
     {% if searched %}
 
-    {% if recipes|length == 0 %}
-        <h4 class="center">No Results for: {{searched}}</h4>
-    {% else%}
-        <h4 class="center">Search Results For: {{searched}}</h4>
-        <div class="divider"></div>
-        <br>
-        <div class="row container">
-            {% for recipe in recipes %}
-                <div class="col s4">
-                    <div class="card hoverable">
-                        <div class="card-content">
-                            <div class="card-title">{{recipe.name}}</div>
-                                <div class="card-body">Category: {{recipe.category}}</div>
-                                <div class="card-body">User: {{recipe.user}}</div>
-                                <div class="card-action"><a href="{% url 'detail' recipe.id %}" class = "teal btn">View Details</a></div>
+        {% if recipes|length == 0 %}
+            <h4 class="center">No results for: {{searched}}</h4>
+        {% else%}
+            <h4 class="center">Search results for: {{searched}}</h4>
+            <div class="divider"></div>
+            <br>
+            <div class="row container">
+                {% for recipe in recipes %}
+                    <div class="col s4">
+                        <div class="card hoverable">
+                            <div class="card-content">
+                                <div class="card-title">{{recipe.name}}</div>
+                                    <div class="card-body">Category: {{recipe.category}}</div>
+                                    <div class="card-body">User: {{recipe.user}}</div>
+                                    <div class="card-action"><a href="{% url 'detail' recipe.id %}" class = "teal btn">View Details</a></div>
+                            </div>
                         </div>
-                     </div>
-                 </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
     {% else %}
-        <h1>Loser! You Forgot To Search For A Recipe...</h1>
+        <h3 class = "center">Hey! You forgot to search for a recipe...</h3>
     {% endif %}
 {% endblock %}

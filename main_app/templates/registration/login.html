@@ -3,17 +3,17 @@
 
 <h1 class="center">Log In</h1>
 <section class=" row container">
-<form method="POST" action="{% url 'login' %}" class="col s6 offset-s3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ next }}">
-    <div style = "display: flex; flex-direction: row; gap: 25px; justify-content: center;">
-        <button type="submit" class="btn">Log In</button>
-        <a class="btn blue lighten-3 btn"href="{% url 'signup' %}">Sign Up</a>
-        <a class="btn red lighten-2 btn"href="{% url 'reset_password' %}">Forgot Password</a>
-    </div>
-    
-</form>
+    <form method="POST" action="{% url 'login' %}" class="col s6 offset-s3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div style = "display: flex; flex-direction: row; gap: 25px; justify-content: center;">
+            <button type="submit" class="btn">Log In</button>
+            <a class="btn blue lighten-3 btn"href="{% url 'signup' %}">Sign Up</a>
+            <a class="btn red lighten-2 btn"href="{% url 'reset_password' %}">Forgot Password</a>
+        </div>
+        
+    </form>
 </section>
 
 {% endblock %}
