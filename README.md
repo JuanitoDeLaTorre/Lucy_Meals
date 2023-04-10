@@ -69,6 +69,6 @@ Meal Plan
 ![Screenshot 2023-04-07 at 4 55 01 PM](https://user-images.githubusercontent.com/85965277/230902809-e0b63160-472b-4d05-a3be-e5ea4fd76c7a.png)
 
 Created By:
-Leonardo Rodriguez
-Wylie Troy
-John Thomas
+[Leonardo Rodriguez](https://github.com/leovre)
+[Wylie Troy](https://github.com/wylietroy)
+[John Thomas](https://github.com/JuanitoDeLaTorre)
