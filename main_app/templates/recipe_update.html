@@ -11,10 +11,10 @@
                 <form action="{% url 'recipes_update' recipe.id %}" method="POST">
                     {% csrf_token %}
                     <!-- {{ recipe_form.as_p }} -->
-                    <label for="name">Name:</label>
+                    <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Name:</p>
                     <input type="text" name="name" id="id_name" value="{{recipe.name}}">
 
-                    <label for="category">Category:</label>
+                    <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Category:</p>
                     <select name="category" id="id_category" >
                         <option value="Appetizer">Appetizer</option>
                         <option value="Side">Side</option>
@@ -24,9 +24,7 @@
                         <option value="Baked Good">Baked Good</option>
                     </select>
 
-                    <label for="day_of_week">Day of the Week:</label>
-                    <p class="grey-text text-lighten-1">Day of the Week</p>
-                    <br>
+                    <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Day of the Week (for Meal Plan):</p>
                     <select name="day_of_week" id="id_day_of_week">
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
@@ -37,13 +35,11 @@
                         <option value="Sunday">Sunday</option>
                         <option value="TBD">To Be Determined</option>
                     </select>
-
-                    <br>
                         
-                    <label for="textarea1">Instructions</label>
+                    <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Instructions:</p>
                     <textarea id="textarea1" name = "instructions" class="materialize-textarea" placeholder = '1) First Step &#10;'>{{recipe.instructions}}</textarea>
 
-                    <label for="img_url">Image URL:</label>
+                    <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Image URL:</p>
                     <input type="text" name="img_url" id="id_img_url" value="{{recipe.img_url}}">
 
                     <h4>Available Ingredients</h4>
@@ -58,21 +54,21 @@
 
 
         </div>
-        <div class="col s4 white" style="border: solid black 2px; padding: 10px; margin-left: 40px; margin-top:40px;">
+        <div class="col s4 white" style="border: solid black 2px; padding: 20px; margin-left: 40px; margin-top:40px;">
             <h4>Create New Ingredient</h4>
             <div class="divider"></div>
             <form id="new_ing_form" method="POST" action="">
                 {% csrf_token %}
-                <label for="name">Name</label>
+                <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 2px;">Name:</p>
                 <input type="text" name="name" id="name">
 
-                <label for="price">price</label>
+                <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 2px;">Price:</p>
                 <input type="text" name="price" id="price">
 
-                <label for="calories">calories</label>
+                <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 2px;">Calories:</p>
                 <input type="text" name="calories" id="calories">
 
-                <label for="store">store</label>
+                <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 2px;">Store:</p>
                 <input type="text" name="store" id="store">
 
                 <input type="submit" value="Submit New Ingredient!" class="teal lighten-3 btn">
