@@ -9,7 +9,6 @@
             <div class="form-parent">
                     <form action="{% url 'new_recipe' %}" method = "POST">
                         {% csrf_token %}
-                        <!-- <label for="name">Name:</label> -->
                         <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Name:</p>
                         <input type="text" name="name" id="id_name">
                         
@@ -49,7 +48,7 @@
                     <div class="divider"></div>
                 
                     <ul id = "display-data">
-                        <!-- ALL INGREDIENTS ARE FILLED HERE -->
+                        <!-- ALL INGREDIENTS ARE FILLED HERE FROM AJAX -->
                     </ul>
                     <input type="submit" class = "teal lighten-3 btn" value = "Submit Recipe">
                 </form>
@@ -78,7 +77,6 @@
                     <input type="submit" value = "Submit New Ingredient!" class = "teal lighten-3 btn">
                 </form>
             </div>
-
         </div>
     </div>
 
@@ -91,8 +89,6 @@
         const cat = document.getElementById('id_category')
         M.FormSelect.init(cat)
 
-        // const text_area = document.getElementById('id_instructions')
-        // M.FormSelect.init(text_area)
 
         $(document).ready(()=> {
 
@@ -100,14 +96,12 @@
                     type: "GET",
                     url: "{% url 'get_ingredients' %}",
                     success: (response)=> {
-                        console.log("Hitting intial response", response)
                         $('#display-data').empty()
                         for (let key in response.ingredients.reverse())
                         {
                             //create input checkbox from each incoming ingredient from the response
                             let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                             
-                            console.log(temp)
                             $('#display-data').append(temp)
                         }
                     },
@@ -136,14 +130,12 @@
                     type: "GET",
                     url: "{% url 'get_ingredients' %}",
                     success: (response)=> {
-                        console.log(response)
                         $('#display-data').empty()
                         for (let key in response.ingredients.reverse())
                         {
                             //create input checkbox from each incoming ingredient from the response
                             let temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                             
-                            console.log(temp)
                             $('#display-data').append(temp)
                         }
                     },
@@ -153,7 +145,7 @@
                 })
                 }
             })
-            
+            // reset new ingredient form
             $('#new_ing_form')[0].reset()
         })
     </script>

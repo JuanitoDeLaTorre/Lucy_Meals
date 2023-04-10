@@ -10,7 +10,7 @@
             <div class="form-parent">
                 <form action="{% url 'recipes_update' recipe.id %}" method="POST">
                     {% csrf_token %}
-                    <!-- {{ recipe_form.as_p }} -->
+
                     <p class = "grey-text text-lighten-1" style = "font-size: 0.9em; margin-bottom: 5px;">Name:</p>
                     <input type="text" name="name" id="id_name" value="{{recipe.name}}">
 
@@ -89,9 +89,8 @@
     M.FormSelect.init(cat)
 
     const recipe_id = document.getElementById('recipe_id_hidden').innerHTML
-    console.log(recipe_id)
 
-    // using jQuery get csrftoken from your HTML
+    // using jQuery to get csrftoken from HTML
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
     function csrfSafeMethod(method) {
@@ -116,17 +115,14 @@
             dataType: 'json',
             data: {'recipe_id':recipe_id},
             success: (response) => {
-                console.log(response)
                 $('#display-data').empty()
                 for (let key in response.ingredients.reverse()) {
-                    console.log(response.ingredients[key].name)
                     let temp = ''
                     if (response.recipe_ingredients.includes(response.ingredients[key].name)){
                         temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '" checked/><span>' + response.ingredients[key].name + '</span></label><br>'
                     } else {
                         temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                     }
-                    // console.log(temp)
                     $('#display-data').append(temp)
                 }
             },
@@ -159,10 +155,8 @@
                 dataType: 'json',
                 data: {'recipe_id':recipe_id},
                 success: (response) => {
-                    console.log(response)
                     $('#display-data').empty()
                     for (let key in response.ingredients.reverse()) {
-                        console.log(response.ingredients[key].name)
                         let temp = ''
                         if (response.recipe_ingredients.includes(response.ingredients[key].name)){
                             temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '" checked/><span>' + response.ingredients[key].name + '</span></label><br>'
@@ -170,7 +164,6 @@
                             temp = '<label><input type = "checkbox" name="' + response.ingredients[key].name + '"/><span>' + response.ingredients[key].name + '</span></label><br>'
                         }
 
-                        // console.log(temp)
                         $('#display-data').append(temp)
                     }
                 },
@@ -180,7 +173,7 @@
             })
         }, 1000)
 
-
+        // reset new ingredient form
         $('#new_ing_form')[0].reset()
     })
 </script>
