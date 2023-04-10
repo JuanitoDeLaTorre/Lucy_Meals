@@ -10,8 +10,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 import json
 
-# Create your views here.
-
 
 def home(request):
     recipe = Recipe.objects.filter()
@@ -44,14 +42,9 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# class RecipeUpdate(LoginRequiredMixin, UpdateView):
-#     model = Recipe
-#     fields = ['name', 'category', 'day_of_week', 'img_url']
-#     extra_context = {'recipe': Recipe.objects.filter()}
-
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    print(request.POST)
+
     if request.method == 'POST':
         recipe_name = request.POST['name']
         recipe_category = request.POST['category']
@@ -68,7 +61,6 @@ def recipe_update(request, recipe_id):
 
         for key, val in request.POST.items():
             if val == 'on':
-                print('adding ' + val)
                 recipe.ingredients.add(
                     Ingredient.objects.filter(name=key)[0].id)
         recipe.save()
@@ -96,7 +88,7 @@ def recipes_detail(request, recipe_id):
         if ing.store not in stores:
             stores.append(ing.store)
     
-    #append words to google search with + in between
+    #append words to google search query base URL with '+' in between
     for word in recipe.name.split(' '):
         search_string += word
         search_string += '+'
@@ -112,6 +104,7 @@ def recipes_detail(request, recipe_id):
 
 def recipes(request, recipe_category):
 
+    #if the serach category isn't 'all', filter recipes by user-defined category
     if recipe_category != "all":
         recipes = Recipe.objects.filter(category=recipe_category.capitalize())
     else:
@@ -123,7 +116,6 @@ def recipes(request, recipe_category):
 @login_required
 def recipes_user(request):
     all_recipes = Recipe.objects.filter(user=request.user)
-    print(all_recipes)
     return render(request, 'recipes_user.html', {'recipes': all_recipes})
 
 
@@ -179,12 +171,13 @@ def get_ingredients(request):
     
     if request.method == 'POST':
         recipe_ingredients = []
+
+        #loop through all the ingredients in the incoming recipe and append names to the outgoing JSON response object
         for ing in list(Recipe.objects.get(id=request.POST.get('recipe_id','')).ingredients.all()):
             recipe_ingredients.append(ing.name)
         
         return JsonResponse({'ingredients': list(ingredients.values()), 'recipe_ingredients': recipe_ingredients})
 
-    
     return JsonResponse({'ingredients': list(ingredients.values())})
 
 
@@ -292,7 +285,6 @@ def search_recipes(request):
 
         if searched in categories:
             recipes = list(Recipe.objects.filter(category=searched.capitalize()))
-            print(recipes)
         else:
             recipes = list(Recipe.objects.filter(name__icontains=searched))
         return render (request, 'search_recipes.html',
