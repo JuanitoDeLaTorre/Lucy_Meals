@@ -11,6 +11,7 @@ GA Project 3 - Django and PostgreSQL
 - AAU, I want to add new recipes via the "recipes" nav link
 * AAU, I want to view the total calories/price for each recipe in the recipe details page
 - AAU, I want to view all the stores I will need to shop at for each recipe
+* AAU, 
 
 
 ##ERD:

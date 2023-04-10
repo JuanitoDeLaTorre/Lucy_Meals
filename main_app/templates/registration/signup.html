@@ -3,12 +3,12 @@
 
 <h1 class="center">Sign Up</h1>
 <section class="container row">
-<p class="red-text center">{{ error_message }}</p>
+    <p class="red-text center">{{ error_message }}</p>
 
-<form method="POST" action="{% url 'signup' %}" class="col s6 offset-s3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="btn" value="Sign Up">
-</form>
+    <form method="POST" action="{% url 'signup' %}" class="col s6 offset-s3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn" value="Sign Up">
+    </form>
 </section>
 {% endblock %}
